@@ -336,24 +336,11 @@ export function Navbar() {
               ) : (
                 <>
                   <button
-                    onClick={() => setSignInOpen(true)}
-                    className="px-4 py-2 border border-[#1a1a1a] text-[#f5f5f0] font-mono text-[9px] uppercase tracking-widest hover:border-[#9945ff] hover:text-[#9945ff] transition-colors"
-                  >
-                    SIGN_IN
-                  </button>
-                  <WalletMultiButton
-                    style={{
-                      background: "#9945ff",
-                      borderRadius: "0px",
-                      fontSize: "10px",
-                      fontFamily: "Space Mono, monospace",
-                      fontWeight: "700",
-                      letterSpacing: "0.1em",
-                      textTransform: "uppercase",
-                      height: "36px",
-                      padding: "0 16px",
-                    }}
-                  />
+  onClick={() => setSignInOpen(true)}
+  className="px-4 py-2 border border-[#1a1a1a] text-[#f5f5f0] font-mono text-[9px] uppercase tracking-widest hover:border-[#9945ff] hover:text-[#9945ff] transition-colors"
+>
+  SIGN_IN
+</button>
                 </>
               )}
             </div>
