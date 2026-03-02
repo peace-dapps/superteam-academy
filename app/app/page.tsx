@@ -83,7 +83,6 @@ const testimonials = [
   },
 ];
 
-
 const learningPaths = [
   {
     id: "fundamentals",
@@ -241,58 +240,52 @@ export default function HomePage() {
         ))}
       </section>
 
-     {/* Partner logos */}
-<section className="border-b border-[#1a1a1a] px-4 md:px-6 py-8">
-  <div className="max-w-7xl mx-auto">
-    <div className="text-[10px] font-mono text-[#333] uppercase tracking-widest text-center mb-8">
-      // TRUSTED BY THE SOLANA ECOSYSTEM
-    </div>
-    <div className="flex flex-wrap items-center justify-center gap-6 md:gap-12">
-      
-      {/* Solana */}
-<a href="https://solana.com" target="_blank" rel="noopener noreferrer"
-  className="flex items-center gap-3 opacity-40 hover:opacity-100 transition-opacity">
-  <img src="/solana-wordmark.svg" alt="Solana" className="h-6 brightness-0 invert" />
-</a>
+      {/* Partner logos — REAL IMAGES */}
+      <section className="border-b border-[#1a1a1a] px-4 md:px-6 py-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-[10px] font-mono text-[#333] uppercase tracking-widest text-center mb-8">
+            // TRUSTED BY THE SOLANA ECOSYSTEM
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-14">
 
-{/* Superteam Brazil */}
-<a href="https://superteam.fun/br" target="_blank" rel="noopener noreferrer"
-  className="flex items-center gap-2 opacity-40 hover:opacity-100 transition-opacity">
-  <img src="/superteam-br.jpg" alt="Superteam Brazil" className="h-7 w-7 rounded-sm object-cover" />
-  <span className="text-[10px] font-mono text-[#444] uppercase tracking-widest hidden sm:block">Superteam Brazil</span>
-</a>
+            <a href="https://solana.com" target="_blank" rel="noopener noreferrer"
+              className="opacity-60 hover:opacity-100 transition-opacity">
+              <img src="/solana-wordmark.svg" alt="Solana" className="h-7 brightness-0 invert" />
+            </a>
 
-{/* Metaplex */}
-<a href="https://metaplex.com" target="_blank" rel="noopener noreferrer"
-  className="flex items-center gap-2 opacity-40 hover:opacity-100 transition-opacity">
-  <img src="/metaplex.jpg" alt="Metaplex" className="h-7 w-7 rounded-sm object-cover" />
-  <span className="text-[10px] font-mono text-[#444] uppercase tracking-widest hidden sm:block">Metaplex</span>
-</a>
+            <a href="https://superteam.fun/br" target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
+              <img src="/superteam-br.jpg" alt="Superteam Brazil" className="h-8 w-8 rounded-sm object-cover" />
+              <span className="text-[10px] font-mono text-[#555] uppercase tracking-widest hidden sm:block">Superteam Brazil</span>
+            </a>
 
-{/* Helius */}
-<a href="https://helius.dev" target="_blank" rel="noopener noreferrer"
-  className="flex items-center gap-2 opacity-40 hover:opacity-100 transition-opacity">
-  <img src="/helius.jpg" alt="Helius" className="h-7 w-7 rounded-sm object-cover" />
-  <span className="text-[10px] font-mono text-[#444] uppercase tracking-widest hidden sm:block">Helius</span>
-</a>
+            <a href="https://metaplex.com" target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
+              <img src="/metaplex.jpg" alt="Metaplex" className="h-8 w-8 rounded-sm object-cover" />
+              <span className="text-[10px] font-mono text-[#555] uppercase tracking-widest hidden sm:block">Metaplex</span>
+            </a>
 
-{/* Anchor */}
-<a href="https://anchor-lang.com" target="_blank" rel="noopener noreferrer"
-  className="flex items-center gap-2 opacity-40 hover:opacity-100 transition-opacity">
-  <img src="/anchor.png" alt="Anchor" className="h-7 w-7 rounded-sm object-cover" />
-  <span className="text-[10px] font-mono text-[#444] uppercase tracking-widest hidden sm:block">Anchor</span>
-</a>
+            <a href="https://helius.dev" target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
+              <img src="/helius.jpg" alt="Helius" className="h-8 w-8 rounded-sm object-cover" />
+              <span className="text-[10px] font-mono text-[#555] uppercase tracking-widest hidden sm:block">Helius</span>
+            </a>
 
-{/* Phantom */}
-<a href="https://phantom.app" target="_blank" rel="noopener noreferrer"
-  className="flex items-center gap-2 opacity-40 hover:opacity-100 transition-opacity">
-  <img src="/phantom.jpg" alt="Phantom" className="h-7 w-7 rounded-sm object-cover" />
-  <span className="text-[10px] font-mono text-[#444] uppercase tracking-widest hidden sm:block">Phantom</span>
-</a>
+            <a href="https://anchor-lang.com" target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
+              <img src="/anchor.png" alt="Anchor" className="h-8 w-8 rounded-sm object-cover" />
+              <span className="text-[10px] font-mono text-[#555] uppercase tracking-widest hidden sm:block">Anchor</span>
+            </a>
 
-    </div>
-  </div>
-</section>
+            <a href="https://phantom.app" target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
+              <img src="/phantom.jpg" alt="Phantom" className="h-8 w-8 rounded-sm object-cover" />
+              <span className="text-[10px] font-mono text-[#555] uppercase tracking-widest hidden sm:block">Phantom</span>
+            </a>
+
+          </div>
+        </div>
+      </section>
 
       {/* Learning Paths */}
       <section className="px-4 md:px-6 py-16 md:py-24 max-w-7xl mx-auto">
@@ -347,7 +340,6 @@ export default function HomePage() {
           <span className="text-[10px] font-mono text-[#333] uppercase tracking-widest">// PLATFORM FEATURES</span>
           <div className="flex-1 h-px bg-[#1a1a1a]" />
         </div>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[#1a1a1a]">
           {features.map((feature, i) => {
             const Icon = feature.icon;
@@ -389,7 +381,6 @@ export default function HomePage() {
             ALL_COURSES <ArrowUpRight className="w-3 h-3" />
           </Link>
         </div>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[#1a1a1a]">
           {mockCourses.slice(0, 3).map((course, i) => (
             <motion.div
@@ -459,9 +450,7 @@ export default function HomePage() {
                 className="border border-[#1a1a1a] p-6 bg-[#0a0a0a] hover:border-[#9945ff]/30 transition-colors"
               >
                 <div className="text-[#9945ff] text-2xl mb-4 font-display">"</div>
-                <p className="text-xs font-mono text-[#555] leading-relaxed mb-6">
-                  {t.quote}
-                </p>
+                <p className="text-xs font-mono text-[#555] leading-relaxed mb-6">{t.quote}</p>
                 <div className="flex items-center gap-3 pt-4 border-t border-[#1a1a1a]">
                   <div className="w-8 h-8 bg-[#9945ff]/20 flex items-center justify-center text-[10px] font-mono text-[#9945ff] font-bold">
                     {t.avatar}
@@ -482,9 +471,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-center">
             <div>
-              <div className="text-[10px] font-mono text-[#333] uppercase tracking-widest mb-6">
-                // GET STARTED
-              </div>
+              <div className="text-[10px] font-mono text-[#333] uppercase tracking-widest mb-6">// GET STARTED</div>
               <h2 className="font-display font-black text-5xl md:text-6xl lg:text-8xl uppercase tracking-tighter leading-[0.85] mb-8">
                 BUILD<br />
                 <span className="text-[#9945ff]">ON</span><br />
@@ -504,8 +491,6 @@ export default function HomePage() {
                 </motion.button>
               </Link>
             </div>
-
-            {/* Terminal mockup */}
             <div className="border border-[#1a1a1a] bg-[#0a0a0a]">
               <div className="flex items-center gap-2 px-4 py-3 border-b border-[#1a1a1a]">
                 <div className="w-2.5 h-2.5 rounded-full bg-[#ff3366]" />
@@ -534,52 +519,48 @@ export default function HomePage() {
         </div>
       </section>
 
-{/* Superteam Brazil Banner */}
-<section className="border-t border-[#1a1a1a] overflow-hidden relative">
-  <div className="relative h-48 md:h-64">
-    <img
-  src="/superteam-banner.jpg"
-  alt="Superteam Brazil"
-  className="w-full h-full object-cover opacity-30"
-/>
-    <div className="absolute inset-0 bg-gradient-to-r from-[#020202] via-[#020202]/60 to-transparent" />
-    <div className="absolute inset-0 flex items-center px-6 md:px-12 max-w-7xl mx-auto">
-      <div className="flex items-center gap-4 md:gap-6">
-        <img
-  src="/superteam-br.jpg"
-  alt="Superteam Brazil"
-  className="w-12 h-12 md:w-16 md:h-16 object-cover rounded-sm border border-[#9945ff]/40"
-/>
-        <div>
-          <div className="text-[9px] font-mono text-[#9945ff] uppercase tracking-widest mb-1">
-            // BUILT BY
-          </div>
-          <div className="font-display font-black text-2xl md:text-4xl uppercase tracking-tighter text-[#f5f5f0]">
-            SUPERTEAM BRAZIL
-          </div>
-          <div className="text-[10px] font-mono text-[#555] mt-1">
-            Empowering the Latin American Solana ecosystem
+      {/* Superteam Brazil Banner */}
+      <section className="border-t border-[#1a1a1a] overflow-hidden relative">
+        <div className="relative h-48 md:h-64">
+          <img
+            src="/superteam-banner.jpg"
+            alt="Superteam Brazil"
+            className="w-full h-full object-cover opacity-30"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#020202] via-[#020202]/60 to-transparent" />
+          <div className="absolute inset-0 flex items-center px-6 md:px-12">
+            <div className="flex items-center gap-4 md:gap-6">
+              <img
+                src="/superteam-br.jpg"
+                alt="Superteam Brazil"
+                className="w-12 h-12 md:w-16 md:h-16 object-cover rounded-sm border border-[#9945ff]/40 shrink-0"
+              />
+              <div>
+                <div className="text-[9px] font-mono text-[#9945ff] uppercase tracking-widest mb-1">// BUILT BY</div>
+                <div className="font-display font-black text-2xl md:text-4xl uppercase tracking-tighter text-[#f5f5f0]">
+                  SUPERTEAM BRAZIL
+                </div>
+                <div className="text-[10px] font-mono text-[#555] mt-1">
+                  Empowering the Latin American Solana ecosystem
+                </div>
+              </div>
+            </div>
+            <a
+              href="https://superteam.fun/br"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-auto flex items-center gap-2 px-4 md:px-6 py-2.5 border border-[#9945ff]/40 text-[#9945ff] font-mono text-[10px] uppercase tracking-widest hover:bg-[#9945ff]/10 transition-colors shrink-0"
+            >
+              VISIT <ExternalLink className="w-3 h-3" />
+            </a>
           </div>
         </div>
-      </div>
-      
-      <a  href="https://superteam.fun/br"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="ml-auto flex items-center gap-2 px-4 md:px-6 py-2.5 border border-[#9945ff]/40 text-[#9945ff] font-mono text-[10px] uppercase tracking-widest hover:bg-[#9945ff]/10 transition-colors shrink-0"
-      >
-        VISIT <ExternalLink className="w-3 h-3" />
-      </a>
-    </div>
-  </div>
-</section>
+      </section>
 
       {/* Newsletter */}
       <section className="border-t border-[#1a1a1a] px-4 md:px-6 py-16 md:py-24">
         <div className="max-w-2xl mx-auto text-center">
-          <div className="text-[10px] font-mono text-[#333] uppercase tracking-widest mb-4">
-            // STAY UPDATED
-          </div>
+          <div className="text-[10px] font-mono text-[#333] uppercase tracking-widest mb-4">// STAY UPDATED</div>
           <h2 className="font-display font-black text-3xl md:text-4xl uppercase tracking-tighter mb-4">
             JOIN THE <span className="text-[#9945ff]">NEWSLETTER</span>
           </h2>
@@ -697,7 +678,7 @@ export default function HomePage() {
 
           <div className="border-t border-[#1a1a1a] pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="text-[9px] font-mono text-[#333] uppercase tracking-widest">
-              © 2024 Superteam Academy. MIT Licensed. Built by Superteam Brazil.
+              © 2026 Superteam Academy. MIT Licensed. Built by Superteam Brazil.
             </div>
             <div className="flex items-center gap-4 text-[9px] font-mono text-[#333] uppercase tracking-widest">
               <span>Solana Devnet</span>
