@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, ArrowUpRight, Terminal, Zap, Trophy, Shield, Code, Globe, Users } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Terminal, Zap, Trophy, Shield, Code, Globe, Users, Mail, Twitter, Github, ExternalLink } from "lucide-react";
 import { mockCourses } from "@/lib/mockData";
 import { DIFFICULTY_LABELS } from "@/lib/constants";
 
@@ -62,8 +62,71 @@ const features = [
   { icon: Users, label: "06", title: "Open Source", desc: "MIT licensed and fully forkable. Built by Superteam Brazil, owned by the Solana ecosystem." },
 ];
 
+const testimonials = [
+  {
+    quote: "Superteam Academy is the best way to learn Solana development. The on-chain credentials are a game changer.",
+    author: "0xMaria",
+    role: "Solana Developer",
+    avatar: "0M",
+  },
+  {
+    quote: "Finally a platform that teaches Anchor the right way. The interactive challenges are incredibly well designed.",
+    author: "CryptoJoao",
+    role: "DeFi Builder",
+    avatar: "CJ",
+  },
+  {
+    quote: "I went from zero to deploying my first dApp in 2 weeks. The XP system kept me motivated every single day.",
+    author: "SolanaCarlos",
+    role: "Full Stack Dev",
+    avatar: "SC",
+  },
+];
+
+const partners = [
+  { name: "Solana Foundation", abbr: "SF" },
+  { name: "Superteam Brazil", abbr: "SB" },
+  { name: "Metaplex", abbr: "MX" },
+  { name: "Helius", abbr: "HL" },
+  { name: "Anchor", abbr: "AN" },
+  { name: "Dialect", abbr: "DL" },
+];
+
+const learningPaths = [
+  {
+    id: "fundamentals",
+    title: "Solana Fundamentals",
+    desc: "Zero to deployed dApp",
+    courses: 4,
+    xp: 5000,
+    color: "#14f195",
+    steps: ["Accounts", "Transactions", "Programs", "PDAs"],
+  },
+  {
+    id: "anchor",
+    title: "Anchor Developer",
+    desc: "Build production programs",
+    courses: 5,
+    xp: 8000,
+    color: "#9945ff",
+    steps: ["Anchor Basics", "CPIs", "Token-2022", "Security"],
+  },
+  {
+    id: "defi",
+    title: "DeFi Architect",
+    desc: "AMMs, lending, yield",
+    courses: 6,
+    xp: 12000,
+    color: "#ff3366",
+    steps: ["AMM Theory", "Liquidity Pools", "Yield Farming", "Auditing"],
+  },
+];
+
 export default function HomePage() {
   const [time, setTime] = useState("");
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+
   useEffect(() => {
     const update = () => setTime(new Date().toISOString().split("T")[1].split(".")[0]);
     update();
@@ -71,17 +134,25 @@ export default function HomePage() {
     return () => clearInterval(t);
   }, []);
 
+  function handleNewsletterSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (email) {
+      setSubscribed(true);
+      setEmail("");
+    }
+  }
+
   return (
     <div className="noise min-h-screen bg-[#020202] grid-overlay">
 
       {/* Status bar */}
-      <div className="border-b border-[#1a1a1a] px-6 py-2 flex items-center justify-between">
-        <div className="flex items-center gap-4 text-[10px] font-mono text-[#333] uppercase tracking-widest">
+      <div className="border-b border-[#1a1a1a] px-4 md:px-6 py-2 flex items-center justify-between">
+        <div className="flex items-center gap-3 md:gap-4 text-[10px] font-mono text-[#333] uppercase tracking-widest">
           <span className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-[#14f195] blink" />
             DEVNET LIVE
           </span>
-          <span>PROGRAM: ACADBR...3UCF</span>
+          <span className="hidden sm:block">PROGRAM: ACADBR...3UCF</span>
         </div>
         <div className="text-[10px] font-mono text-[#333] uppercase tracking-widest">
           {time} UTC
@@ -89,7 +160,7 @@ export default function HomePage() {
       </div>
 
       {/* Hero */}
-      <section className="px-6 pt-16 pb-8 max-w-7xl mx-auto">
+      <section className="px-4 md:px-6 pt-12 md:pt-16 pb-8 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-8 items-end">
           <div>
             <motion.div
@@ -97,7 +168,7 @@ export default function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <div className="flex items-center gap-3 mb-8">
+              <div className="flex flex-wrap items-center gap-3 mb-6 md:mb-8">
                 <span className="text-[10px] font-mono text-[#444] uppercase tracking-widest border border-[#1a1a1a] px-3 py-1">
                   SUPERTEAM ACADEMY v1.0
                 </span>
@@ -106,7 +177,7 @@ export default function HomePage() {
                 </span>
               </div>
 
-              <h1 className="font-display text-[80px] sm:text-[110px] lg:text-[150px] font-black leading-[0.85] tracking-tighter mb-8 uppercase">
+              <h1 className="font-display text-[64px] sm:text-[90px] lg:text-[150px] font-black leading-[0.85] tracking-tighter mb-6 md:mb-8 uppercase">
                 <GlitchText text="LEARN" />
                 <br />
                 <span className="text-[#9945ff]">BUILD</span>
@@ -114,24 +185,24 @@ export default function HomePage() {
                 <span className="text-[#14f195]">EARN.</span>
               </h1>
 
-              <p className="font-mono text-sm text-[#555] max-w-lg mb-10 leading-relaxed">
+              <p className="font-mono text-sm text-[#555] max-w-lg mb-8 md:mb-10 leading-relaxed">
                 The most advanced on-chain learning platform for Solana builders.
                 Complete interactive courses → earn soulbound XP tokens → collect
                 verifiable NFT credentials. All on-chain. All permanent.
               </p>
 
-              <div className="flex items-center gap-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
                 <Link href="/courses">
                   <motion.button
                     whileHover={{ x: 4 }}
-                    className="group flex items-center gap-3 px-6 py-3 bg-[#9945ff] text-white font-mono text-xs uppercase tracking-widest hover:bg-[#8835ef] transition-colors"
+                    className="group flex items-center gap-3 px-6 py-3 bg-[#9945ff] text-white font-mono text-xs uppercase tracking-widest hover:bg-[#8835ef] transition-colors w-full sm:w-auto justify-center"
                   >
                     START_LEARNING
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </motion.button>
                 </Link>
                 <Link href="/leaderboard">
-                  <button className="flex items-center gap-3 px-6 py-3 border border-[#1a1a1a] text-[#555] font-mono text-xs uppercase tracking-widest hover:border-[#333] hover:text-[#999] transition-colors">
+                  <button className="flex items-center gap-3 px-6 py-3 border border-[#1a1a1a] text-[#555] font-mono text-xs uppercase tracking-widest hover:border-[#333] hover:text-[#999] transition-colors w-full sm:w-auto justify-center">
                     VIEW_LEADERBOARD
                     <ArrowUpRight className="w-3.5 h-3.5" />
                   </button>
@@ -140,7 +211,7 @@ export default function HomePage() {
             </motion.div>
           </div>
 
-          {/* Stats sidebar */}
+          {/* Stats sidebar - desktop only */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -168,9 +239,9 @@ export default function HomePage() {
       <Ticker />
 
       {/* Mobile stats */}
-      <section className="lg:hidden px-6 py-8 grid grid-cols-2 gap-px bg-[#1a1a1a] border-b border-[#1a1a1a]">
+      <section className="lg:hidden px-4 py-6 grid grid-cols-2 gap-px bg-[#1a1a1a] border-b border-[#1a1a1a]">
         {stats.map((stat) => (
-          <div key={stat.prefix} className="bg-[#020202] px-5 py-4">
+          <div key={stat.prefix} className="bg-[#020202] px-4 py-4">
             <div className="text-[10px] font-mono text-[#333] mb-1">[{stat.prefix}]</div>
             <div className="text-xl font-black font-display">{stat.value}</div>
             <div className="text-[10px] font-mono text-[#444] uppercase tracking-wider">{stat.label}</div>
@@ -178,14 +249,82 @@ export default function HomePage() {
         ))}
       </section>
 
+      {/* Partner logos */}
+      <section className="border-b border-[#1a1a1a] px-4 md:px-6 py-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-[10px] font-mono text-[#333] uppercase tracking-widest text-center mb-6">
+            // TRUSTED BY THE SOLANA ECOSYSTEM
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8">
+            {partners.map((partner) => (
+              <div key={partner.name} className="flex items-center gap-2 px-4 py-2 border border-[#1a1a1a] hover:border-[#9945ff]/40 transition-colors group">
+                <div className="w-6 h-6 bg-[#9945ff]/20 flex items-center justify-center text-[8px] font-mono text-[#9945ff] font-bold">
+                  {partner.abbr}
+                </div>
+                <span className="text-[10px] font-mono text-[#444] uppercase tracking-widest group-hover:text-[#9945ff] transition-colors">
+                  {partner.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Learning Paths */}
+      <section className="px-4 md:px-6 py-16 md:py-24 max-w-7xl mx-auto">
+        <div className="flex items-center gap-4 mb-10 md:mb-16">
+          <span className="text-[10px] font-mono text-[#333] uppercase tracking-widest">// LEARNING PATHS</span>
+          <div className="flex-1 h-px bg-[#1a1a1a]" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {learningPaths.map((path, i) => (
+            <motion.div
+              key={path.id}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="border border-[#1a1a1a] p-6 hover:border-[#9945ff]/40 transition-all group bg-[#0a0a0a]"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <div className="text-[9px] font-mono uppercase tracking-widest" style={{ color: path.color }}>
+                  {path.courses} COURSES
+                </div>
+                <div className="text-[9px] font-mono text-[#444]">+{path.xp.toLocaleString()} XP</div>
+              </div>
+              <h3 className="font-display font-black text-xl uppercase mb-2 group-hover:text-[#9945ff] transition-colors">
+                {path.title}
+              </h3>
+              <p className="text-[11px] font-mono text-[#444] mb-5">{path.desc}</p>
+              <div className="space-y-2">
+                {path.steps.map((step, si) => (
+                  <div key={si} className="flex items-center gap-2">
+                    <div className="w-4 h-4 flex items-center justify-center border border-[#1a1a1a] text-[8px] font-mono text-[#444]">
+                      {si + 1}
+                    </div>
+                    <span className="text-[10px] font-mono text-[#555] uppercase">{step}</span>
+                  </div>
+                ))}
+              </div>
+              <Link href="/courses">
+                <button className="mt-5 w-full py-2 border text-[10px] font-mono uppercase tracking-widest transition-colors hover:text-white"
+                  style={{ borderColor: `${path.color}40`, color: path.color }}>
+                  START PATH →
+                </button>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
       {/* Features grid */}
-      <section className="px-6 py-24 max-w-7xl mx-auto">
-        <div className="flex items-center gap-4 mb-16">
+      <section className="px-4 md:px-6 py-16 md:py-24 max-w-7xl mx-auto">
+        <div className="flex items-center gap-4 mb-10 md:mb-16">
           <span className="text-[10px] font-mono text-[#333] uppercase tracking-widest">// PLATFORM FEATURES</span>
           <div className="flex-1 h-px bg-[#1a1a1a]" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#1a1a1a]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[#1a1a1a]">
           {features.map((feature, i) => {
             const Icon = feature.icon;
             return (
@@ -195,7 +334,7 @@ export default function HomePage() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.07 }}
-                className="bg-[#020202] p-8 hover:bg-[#0a0a0a] transition-colors group"
+                className="bg-[#020202] p-6 md:p-8 hover:bg-[#0a0a0a] transition-colors group"
               >
                 <div className="flex items-start justify-between mb-6">
                   <Icon className="w-5 h-5 text-[#9945ff]" />
@@ -215,19 +354,19 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Courses */}
-      <section className="px-6 pb-24 max-w-7xl mx-auto">
-        <div className="flex items-center justify-between mb-16">
+      {/* Featured Courses */}
+      <section className="px-4 md:px-6 pb-16 md:pb-24 max-w-7xl mx-auto">
+        <div className="flex items-center justify-between mb-10 md:mb-16">
           <div className="flex items-center gap-4">
             <span className="text-[10px] font-mono text-[#333] uppercase tracking-widest">// FEATURED COURSES</span>
-            <div className="w-24 h-px bg-[#1a1a1a]" />
+            <div className="hidden sm:block w-24 h-px bg-[#1a1a1a]" />
           </div>
           <Link href="/courses" className="text-[10px] font-mono text-[#9945ff] uppercase tracking-widest hover:text-[#8835ef] transition-colors flex items-center gap-2">
             ALL_COURSES <ArrowUpRight className="w-3 h-3" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#1a1a1a]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[#1a1a1a]">
           {mockCourses.slice(0, 3).map((course, i) => (
             <motion.div
               key={course.id}
@@ -238,10 +377,9 @@ export default function HomePage() {
             >
               <Link href={`/courses/${course.id}`}>
                 <div className="bg-[#020202] hover:bg-[#0a0a0a] transition-colors group h-full flex flex-col">
-                  {/* Course image area */}
-                  <div className="h-48 bg-[#0d0d0d] relative overflow-hidden scanline flex items-end p-5">
+                  <div className="h-40 md:h-48 bg-[#0d0d0d] relative overflow-hidden scanline flex items-end p-5">
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <Code className="w-20 h-20 text-[#9945ff] opacity-10" />
+                      <Code className="w-16 md:w-20 h-16 md:h-20 text-[#9945ff] opacity-10" />
                     </div>
                     <div className="relative">
                       <div className="text-[10px] font-mono text-[#333] uppercase tracking-widest mb-1">
@@ -255,9 +393,7 @@ export default function HomePage() {
                       +{course.xp.toLocaleString()}_XP
                     </div>
                   </div>
-
-                  {/* Course info */}
-                  <div className="p-6 flex flex-col flex-1 border-t border-[#1a1a1a]">
+                  <div className="p-5 md:p-6 flex flex-col flex-1 border-t border-[#1a1a1a]">
                     <div className="text-[10px] font-mono text-[#333] uppercase tracking-widest mb-2">
                       {course.track}
                     </div>
@@ -281,15 +417,51 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* Testimonials */}
+      <section className="border-t border-[#1a1a1a] px-4 md:px-6 py-16 md:py-24">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center gap-4 mb-10 md:mb-16">
+            <span className="text-[10px] font-mono text-[#333] uppercase tracking-widest">// BUILDER TESTIMONIALS</span>
+            <div className="flex-1 h-px bg-[#1a1a1a]" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {testimonials.map((t, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="border border-[#1a1a1a] p-6 bg-[#0a0a0a] hover:border-[#9945ff]/30 transition-colors"
+              >
+                <div className="text-[#9945ff] text-2xl mb-4 font-display">"</div>
+                <p className="text-xs font-mono text-[#555] leading-relaxed mb-6">
+                  {t.quote}
+                </p>
+                <div className="flex items-center gap-3 pt-4 border-t border-[#1a1a1a]">
+                  <div className="w-8 h-8 bg-[#9945ff]/20 flex items-center justify-center text-[10px] font-mono text-[#9945ff] font-bold">
+                    {t.avatar}
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-mono text-[#f5f5f0] uppercase font-bold">{t.author}</div>
+                    <div className="text-[9px] font-mono text-[#444] uppercase">{t.role}</div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA + Terminal */}
       <section className="border-t border-[#1a1a1a]">
-        <div className="max-w-7xl mx-auto px-6 py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-center">
             <div>
               <div className="text-[10px] font-mono text-[#333] uppercase tracking-widest mb-6">
                 // GET STARTED
               </div>
-              <h2 className="font-display font-black text-6xl lg:text-8xl uppercase tracking-tighter leading-[0.85] mb-8">
+              <h2 className="font-display font-black text-5xl md:text-6xl lg:text-8xl uppercase tracking-tighter leading-[0.85] mb-8">
                 BUILD<br />
                 <span className="text-[#9945ff]">ON</span><br />
                 SOLANA.
@@ -301,7 +473,7 @@ export default function HomePage() {
               <Link href="/courses">
                 <motion.button
                   whileHover={{ x: 4 }}
-                  className="flex items-center gap-3 px-8 py-4 bg-[#9945ff] text-white font-mono text-xs uppercase tracking-widest hover:bg-[#8835ef] transition-colors"
+                  className="flex items-center gap-3 px-6 md:px-8 py-3 md:py-4 bg-[#9945ff] text-white font-mono text-xs uppercase tracking-widest hover:bg-[#8835ef] transition-colors"
                 >
                   INITIALIZE_LEARNING
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -317,7 +489,7 @@ export default function HomePage() {
                 <div className="w-2.5 h-2.5 rounded-full bg-[#9945ff]" />
                 <span className="ml-2 text-[10px] font-mono text-[#333]">academy_terminal</span>
               </div>
-              <div className="p-6 font-mono text-xs space-y-2">
+              <div className="p-4 md:p-6 font-mono text-xs space-y-2 overflow-x-auto">
                 <div className="text-[#444]">$ sss-token enroll --course anchor-101</div>
                 <div className="text-[#14f195]">✓ Enrollment PDA initialized</div>
                 <div className="text-[#444]">$ complete-lesson --index 0</div>
@@ -338,7 +510,144 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="border-t border-[#1a1a1a]" />
+      {/* Newsletter */}
+      <section className="border-t border-[#1a1a1a] px-4 md:px-6 py-16 md:py-24">
+        <div className="max-w-2xl mx-auto text-center">
+          <div className="text-[10px] font-mono text-[#333] uppercase tracking-widest mb-4">
+            // STAY UPDATED
+          </div>
+          <h2 className="font-display font-black text-3xl md:text-4xl uppercase tracking-tighter mb-4">
+            JOIN THE <span className="text-[#9945ff]">NEWSLETTER</span>
+          </h2>
+          <p className="text-xs font-mono text-[#444] mb-8 leading-relaxed">
+            Get weekly updates on new courses, Solana ecosystem news, and builder spotlights.
+          </p>
+          {subscribed ? (
+            <div className="flex items-center justify-center gap-2 text-[#14f195] font-mono text-sm">
+              ✓ You're subscribed! Welcome to the community.
+            </div>
+          ) : (
+            <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+              <input
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                required
+                className="flex-1 bg-[#0a0a0a] border border-[#1a1a1a] px-4 py-3 text-sm font-mono text-[#f5f5f0] placeholder-[#333] focus:outline-none focus:border-[#9945ff] transition-colors"
+              />
+              <button
+                type="submit"
+                className="flex items-center justify-center gap-2 px-6 py-3 bg-[#9945ff] text-white font-mono text-xs uppercase tracking-widest hover:bg-[#8835ef] transition-colors whitespace-nowrap"
+              >
+                <Mail className="w-3.5 h-3.5" />
+                Subscribe
+              </button>
+            </form>
+          )}
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-[#1a1a1a] px-4 md:px-6 py-12">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+            <div className="col-span-2 md:col-span-1">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-6 h-6 bg-[#9945ff] flex items-center justify-center">
+                  <Zap className="w-3.5 h-3.5 text-white" />
+                </div>
+                <span className="font-display font-black text-sm uppercase">SUPERTEAM ACADEMY</span>
+              </div>
+              <p className="text-[10px] font-mono text-[#444] leading-relaxed mb-4">
+                The most advanced on-chain learning platform for Solana builders.
+              </p>
+              <div className="flex items-center gap-3">
+                <a href="https://twitter.com/SuperteamBR" target="_blank" rel="noopener noreferrer"
+                  className="w-8 h-8 border border-[#1a1a1a] flex items-center justify-center text-[#444] hover:border-[#9945ff] hover:text-[#9945ff] transition-colors">
+                  <Twitter className="w-3.5 h-3.5" />
+                </a>
+                <a href="https://github.com/solanabr/superteam-academy" target="_blank" rel="noopener noreferrer"
+                  className="w-8 h-8 border border-[#1a1a1a] flex items-center justify-center text-[#444] hover:border-[#9945ff] hover:text-[#9945ff] transition-colors">
+                  <Github className="w-3.5 h-3.5" />
+                </a>
+                <a href="https://superteam.fun/br" target="_blank" rel="noopener noreferrer"
+                  className="w-8 h-8 border border-[#1a1a1a] flex items-center justify-center text-[#444] hover:border-[#9945ff] hover:text-[#9945ff] transition-colors">
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
+
+            <div>
+              <div className="text-[9px] font-mono text-[#333] uppercase tracking-widest mb-4">Platform</div>
+              <div className="space-y-2">
+                {[
+                  { href: "/courses", label: "Courses" },
+                  { href: "/practice", label: "Practice Arena" },
+                  { href: "/daily", label: "Daily Challenge" },
+                  { href: "/leaderboard", label: "Leaderboard" },
+                  { href: "/community", label: "Community" },
+                ].map(link => (
+                  <Link key={link.href} href={link.href}
+                    className="block text-[10px] font-mono text-[#444] hover:text-[#9945ff] transition-colors uppercase tracking-widest">
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <div className="text-[9px] font-mono text-[#333] uppercase tracking-widest mb-4">Resources</div>
+              <div className="space-y-2">
+                {[
+                  { href: "https://docs.solana.com", label: "Solana Docs" },
+                  { href: "https://anchor-lang.com", label: "Anchor Docs" },
+                  { href: "https://metaplex.com", label: "Metaplex Docs" },
+                  { href: "https://github.com/solanabr/superteam-academy", label: "GitHub" },
+                ].map(link => (
+                  <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer"
+                    className="block text-[10px] font-mono text-[#444] hover:text-[#9945ff] transition-colors uppercase tracking-widest">
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <div className="text-[9px] font-mono text-[#333] uppercase tracking-widest mb-4">Community</div>
+              <div className="space-y-2">
+                {[
+                  { href: "https://superteam.fun/br", label: "Superteam Brazil" },
+                  { href: "https://discord.gg/solana", label: "Discord" },
+                  { href: "https://twitter.com/SuperteamBR", label: "Twitter" },
+                  { href: "/community", label: "Forum" },
+                ].map(link => (
+                  <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer"
+                    className="block text-[10px] font-mono text-[#444] hover:text-[#9945ff] transition-colors uppercase tracking-widest">
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t border-[#1a1a1a] pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="text-[9px] font-mono text-[#333] uppercase tracking-widest">
+              © 2024 Superteam Academy. MIT Licensed. Built by Superteam Brazil.
+            </div>
+            <div className="flex items-center gap-4 text-[9px] font-mono text-[#333] uppercase tracking-widest">
+              <span>Solana Devnet</span>
+              <span className="w-1 h-1 rounded-full bg-[#333]" />
+              <span>Open Source</span>
+              <span className="w-1 h-1 rounded-full bg-[#333]" />
+              <span className="flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#14f195] blink" />
+                Live
+              </span>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
