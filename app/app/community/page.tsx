@@ -6,7 +6,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useAuth } from "@/context/AuthContext";
 import { shortenAddress } from "@/lib/utils";
 import { cn } from "@/lib/utils";
-import { MessageSquare, ThumbsUp, Pin, Flame, Clock, Tag, Plus, X, Send } from "lucide-react";
+import { MessageSquare, Pin, Flame, Clock, Plus, X, Send } from "lucide-react";
 
 const categories = ["All", "General", "Anchor", "DeFi", "NFTs", "Security", "Help", "Showcase"];
 
@@ -89,7 +89,7 @@ const mockPosts = [
   {
     id: 6,
     title: "NFT Royalties on Solana - State of the Ecosystem",
-    body: "With the shift to Token-2022 and Metaplex Core, royalty enforcement is finally becoming a reality. Here's a breakdown of the current state and what's coming.",
+    body: "With the shift to Token-2022 and Metaplex Core, royalty enforcement is finally becoming a reality.",
     author: "Es9vMF...YB",
     category: "NFTs",
     upvotes: 38,
@@ -108,6 +108,7 @@ export default function CommunityPage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedPost, setSelectedPost] = useState<typeof mockPosts[0] | null>(null);
   const [showNewPost, setShowNewPost] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
   const [sortBy, setSortBy] = useState<"hot" | "new" | "top">("hot");
   const [newTitle, setNewTitle] = useState("");
   const [newBody, setNewBody] = useState("");
@@ -132,25 +133,25 @@ export default function CommunityPage() {
 
       {/* Header */}
       <div className="border-b border-[#1a1a1a]">
-        <div className="max-w-7xl mx-auto px-8 py-12">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12">
           <div className="text-[10px] font-mono text-[#333] uppercase tracking-widest mb-4">// COMMUNITY</div>
-          <div className="flex items-end justify-between">
+          <div className="flex items-start md:items-end justify-between flex-wrap gap-4">
             <div>
-              <h1 className="font-display font-black text-6xl uppercase tracking-tighter mb-3">
+              <h1 className="font-display font-black text-4xl md:text-6xl uppercase tracking-tighter mb-2 md:mb-3">
                 BUILDER <span className="text-[#9945ff]">FORUM</span>
               </h1>
-              <p className="text-sm font-mono text-[#555]">
+              <p className="text-xs md:text-sm font-mono text-[#555]">
                 Discuss, share, and learn with the Solana builder community
               </p>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3 md:gap-4">
               <div className="text-right">
-                <div className="font-display font-black text-3xl text-[#14f195]">{mockPosts.length}</div>
+                <div className="font-display font-black text-2xl md:text-3xl text-[#14f195]">{mockPosts.length}</div>
                 <div className="text-[9px] font-mono text-[#444] uppercase">Posts</div>
               </div>
-              <div className="w-px h-10 bg-[#1a1a1a]" />
+              <div className="w-px h-8 bg-[#1a1a1a]" />
               <div className="text-right">
-                <div className="font-display font-black text-3xl text-[#9945ff]">
+                <div className="font-display font-black text-2xl md:text-3xl text-[#9945ff]">
                   {mockPosts.reduce((a, b) => a + b.replies, 0)}
                 </div>
                 <div className="text-[9px] font-mono text-[#444] uppercase">Replies</div>
@@ -158,10 +159,10 @@ export default function CommunityPage() {
               {isLoggedIn && (
                 <button
                   onClick={() => setShowNewPost(true)}
-                  className="flex items-center gap-2 px-6 py-3 bg-[#9945ff] text-white font-mono text-[11px] uppercase tracking-widest hover:bg-[#8835ef] transition-colors ml-4"
+                  className="flex items-center gap-2 px-4 md:px-6 py-2.5 md:py-3 bg-[#9945ff] text-white font-mono text-[10px] md:text-[11px] uppercase tracking-widest hover:bg-[#8835ef] transition-colors ml-2"
                 >
-                  <Plus className="w-4 h-4" />
-                  New Post
+                  <Plus className="w-3.5 h-3.5" />
+                  <span className="hidden sm:block">New Post</span>
                 </button>
               )}
             </div>
@@ -171,16 +172,16 @@ export default function CommunityPage() {
 
       {/* New Post Modal */}
       {showNewPost && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setShowNewPost(false)} />
-          <div className="relative z-10 w-full max-w-2xl mx-4 bg-[#0a0a0a] border border-[#1a1a1a]">
-            <div className="flex items-center justify-between px-6 py-5 border-b border-[#1a1a1a]">
-              <h2 className="font-display font-black text-xl uppercase">New Post</h2>
+          <div className="relative z-10 w-full max-w-2xl bg-[#0a0a0a] border border-[#1a1a1a]">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-[#1a1a1a]">
+              <h2 className="font-display font-black text-lg md:text-xl uppercase">New Post</h2>
               <button onClick={() => setShowNewPost(false)} className="w-8 h-8 flex items-center justify-center border border-[#1a1a1a] text-[#444] hover:text-[#f5f5f0] transition-colors">
                 <X className="w-3.5 h-3.5" />
               </button>
             </div>
-            <div className="p-6 space-y-4">
+            <div className="p-5 space-y-4">
               <div>
                 <label className="text-[9px] font-mono text-[#444] uppercase tracking-widest mb-2 block">Title</label>
                 <input
@@ -194,16 +195,10 @@ export default function CommunityPage() {
                 <label className="text-[9px] font-mono text-[#444] uppercase tracking-widest mb-2 block">Category</label>
                 <div className="flex flex-wrap gap-2">
                   {categories.filter(c => c !== "All").map(c => (
-                    <button
-                      key={c}
-                      onClick={() => setNewCategory(c)}
-                      className={cn(
-                        "px-3 py-1.5 text-[10px] font-mono uppercase tracking-widest border transition-colors",
-                        newCategory === c
-                          ? "border-[#9945ff] text-[#9945ff] bg-[#9945ff]/10"
-                          : "border-[#1a1a1a] text-[#444] hover:text-[#f5f5f0]"
-                      )}
-                    >
+                    <button key={c} onClick={() => setNewCategory(c)}
+                      className={cn("px-3 py-1.5 text-[10px] font-mono uppercase tracking-widest border transition-colors",
+                        newCategory === c ? "border-[#9945ff] text-[#9945ff] bg-[#9945ff]/10" : "border-[#1a1a1a] text-[#444] hover:text-[#f5f5f0]"
+                      )}>
                       {c}
                     </button>
                   ))}
@@ -215,18 +210,15 @@ export default function CommunityPage() {
                   value={newBody}
                   onChange={e => setNewBody(e.target.value)}
                   placeholder="Share your thoughts, question, or code..."
-                  rows={6}
+                  rows={5}
                   className="w-full bg-[#020202] border border-[#1a1a1a] px-4 py-3 text-sm font-mono text-[#f5f5f0] placeholder-[#333] focus:outline-none focus:border-[#9945ff] transition-colors resize-none"
                 />
               </div>
               <div className="flex items-center justify-between pt-2">
                 <span className="text-[9px] font-mono text-[#333]">Posting as {displayName}</span>
-                <button
-                  onClick={() => setShowNewPost(false)}
-                  className="flex items-center gap-2 px-6 py-3 bg-[#9945ff] text-white font-mono text-[10px] uppercase tracking-widest hover:bg-[#8835ef] transition-colors"
-                >
-                  <Send className="w-3.5 h-3.5" />
-                  Post
+                <button onClick={() => setShowNewPost(false)}
+                  className="flex items-center gap-2 px-5 py-2.5 bg-[#9945ff] text-white font-mono text-[10px] uppercase tracking-widest hover:bg-[#8835ef] transition-colors">
+                  <Send className="w-3.5 h-3.5" /> Post
                 </button>
               </div>
             </div>
@@ -234,244 +226,218 @@ export default function CommunityPage() {
         </div>
       )}
 
-      <div className="max-w-7xl mx-auto px-8 py-8 flex gap-8">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-8">
 
-        {/* Left: Post list */}
-        <div className="flex-1 min-w-0">
+        {/* Mobile: toggle sidebar button */}
+        <div className="flex items-center justify-between mb-4 md:hidden">
+          <div className="text-[10px] font-mono text-[#444] uppercase">{filtered.length} posts</div>
+          <button onClick={() => setShowSidebar(!showSidebar)}
+            className="text-[10px] font-mono text-[#9945ff] border border-[#9945ff]/30 px-3 py-1.5 uppercase tracking-widest">
+            {showSidebar ? "Hide" : "Show"} Stats
+          </button>
+        </div>
 
-          {/* Filters */}
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-2 flex-wrap">
-              {categories.map(c => (
-                <button
-                  key={c}
-                  onClick={() => setSelectedCategory(c)}
-                  className={cn(
-                    "px-3 py-2 text-[10px] font-mono uppercase tracking-widest border transition-colors",
-                    selectedCategory === c
-                      ? "border-[#9945ff] text-[#9945ff] bg-[#9945ff]/10"
-                      : "border-[#1a1a1a] text-[#444] hover:text-[#f5f5f0]"
-                  )}
-                >
-                  {c}
-                </button>
-              ))}
+        <div className="flex gap-8">
+          {/* Left: Post list */}
+          <div className="flex-1 min-w-0">
+
+            {/* Category filters - scrollable on mobile */}
+            <div className="overflow-x-auto pb-2 mb-3">
+              <div className="flex gap-1.5 min-w-max">
+                {categories.map(c => (
+                  <button key={c} onClick={() => setSelectedCategory(c)}
+                    className={cn("px-3 py-1.5 text-[10px] font-mono uppercase tracking-widest border transition-colors whitespace-nowrap",
+                      selectedCategory === c ? "border-[#9945ff] text-[#9945ff] bg-[#9945ff]/10" : "border-[#1a1a1a] text-[#444] hover:text-[#f5f5f0]"
+                    )}>
+                    {c}
+                  </button>
+                ))}
+              </div>
             </div>
-            <div className="flex items-center gap-1">
+
+            {/* Sort */}
+            <div className="flex items-center gap-1.5 mb-5">
               {(["hot", "new", "top"] as const).map(s => (
-                <button
-                  key={s}
-                  onClick={() => setSortBy(s)}
-                  className={cn(
-                    "px-3 py-2 text-[10px] font-mono uppercase tracking-widest border transition-colors",
-                    sortBy === s
-                      ? "border-[#9945ff] text-[#9945ff]"
-                      : "border-[#1a1a1a] text-[#444] hover:text-[#f5f5f0]"
-                  )}
-                >
+                <button key={s} onClick={() => setSortBy(s)}
+                  className={cn("px-3 py-1.5 text-[10px] font-mono uppercase tracking-widest border transition-colors",
+                    sortBy === s ? "border-[#9945ff] text-[#9945ff]" : "border-[#1a1a1a] text-[#444] hover:text-[#f5f5f0]"
+                  )}>
                   {s === "hot" ? "🔥" : s === "new" ? "⚡" : "⬆"} {s}
                 </button>
               ))}
             </div>
-          </div>
 
-          {/* Posts */}
-          <div className="space-y-3">
-            {filtered.map((post, i) => (
-              <motion.div
-                key={post.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.05 }}
-                onClick={() => setSelectedPost(selectedPost?.id === post.id ? null : post)}
-                className={cn(
-                  "border p-5 cursor-pointer transition-all hover:border-[#9945ff]/40",
-                  selectedPost?.id === post.id
-                    ? "border-[#9945ff]/60 bg-[#0d0d0d]"
-                    : "border-[#1a1a1a] bg-[#0a0a0a] hover:bg-[#0d0d0d]"
-                )}
-              >
-                <div className="flex items-start gap-4">
-                  {/* Upvote */}
-                  <div className="flex flex-col items-center gap-1 shrink-0">
-                    <button
-                      onClick={e => { e.stopPropagation(); setUpvoted(prev => prev.includes(post.id) ? prev.filter(id => id !== post.id) : [...prev, post.id]); }}
-                      className={cn(
-                        "w-8 h-8 flex items-center justify-center border transition-colors",
-                        upvoted.includes(post.id)
-                          ? "border-[#9945ff] text-[#9945ff] bg-[#9945ff]/10"
-                          : "border-[#1a1a1a] text-[#444] hover:border-[#9945ff] hover:text-[#9945ff]"
-                      )}
-                    >
-                      ▲
-                    </button>
-                    <span className="text-[10px] font-mono text-[#f5f5f0] font-bold">
-                      {post.upvotes + (upvoted.includes(post.id) ? 1 : 0)}
-                    </span>
-                  </div>
-
-                  {/* Content */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-2 flex-wrap">
-                      {post.pinned && (
-                        <span className="flex items-center gap-1 text-[8px] font-mono text-[#f5a623] border border-[#f5a623]/30 px-2 py-0.5 uppercase">
-                          <Pin className="w-2.5 h-2.5" /> Pinned
-                        </span>
-                      )}
-                      {post.hot && (
-                        <span className="flex items-center gap-1 text-[8px] font-mono text-[#ff3366] border border-[#ff3366]/30 px-2 py-0.5 uppercase">
-                          <Flame className="w-2.5 h-2.5" /> Hot
-                        </span>
-                      )}
-                      <span className="text-[8px] font-mono text-[#9945ff] border border-[#9945ff]/30 px-2 py-0.5 uppercase">
-                        {post.category}
-                      </span>
-                    </div>
-                    <h3 className="text-sm font-mono text-[#f5f5f0] font-bold uppercase mb-2 hover:text-[#9945ff] transition-colors">
-                      {post.title}
-                    </h3>
-                    <p className="text-[11px] font-mono text-[#555] line-clamp-2 mb-3 leading-relaxed">
-                      {post.body}
-                    </p>
-                    <div className="flex items-center gap-4 text-[9px] font-mono text-[#333]">
-                      <span className="text-[#444]">{post.author}</span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-2.5 h-2.5" /> {post.timestamp}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <MessageSquare className="w-2.5 h-2.5" /> {post.replies} replies
-                      </span>
-                      <div className="flex items-center gap-1 flex-wrap">
-                        {post.tags.map(tag => (
-                          <span key={tag} className="text-[#333] border border-[#1a1a1a] px-1.5 py-0.5">
-                            #{tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Expanded replies */}
-                {selectedPost?.id === post.id && (
-                  <div className="mt-5 pt-5 border-t border-[#1a1a1a]" onClick={e => e.stopPropagation()}>
-                    <p className="text-xs font-mono text-[#555] mb-5 leading-relaxed">{post.body}</p>
-
-                    {post.replies_data.length > 0 && (
-                      <div className="space-y-3 mb-5">
-                        <div className="text-[9px] font-mono text-[#333] uppercase tracking-widest">
-                          {post.replies_data.length} Replies
-                        </div>
-                        {post.replies_data.map((reply, ri) => (
-                          <div key={ri} className="border border-[#1a1a1a] p-4 bg-[#020202]">
-                            <div className="flex items-center gap-3 mb-2">
-                              <span className="text-[10px] font-mono text-[#9945ff]">{reply.author}</span>
-                              <span className="text-[9px] font-mono text-[#333]">{reply.timestamp}</span>
-                              <span className="ml-auto text-[9px] font-mono text-[#444]">▲ {reply.upvotes}</span>
-                            </div>
-                            <p className="text-xs font-mono text-[#555] leading-relaxed">{reply.body}</p>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {isLoggedIn ? (
-                      <div className="flex gap-3">
-                        <input
-                          value={replyText}
-                          onChange={e => setReplyText(e.target.value)}
-                          placeholder="Write a reply..."
-                          className="flex-1 bg-[#020202] border border-[#1a1a1a] px-4 py-2.5 text-xs font-mono text-[#f5f5f0] placeholder-[#333] focus:outline-none focus:border-[#9945ff] transition-colors"
-                        />
-                        <button
-                          onClick={() => setReplyText("")}
-                          className="flex items-center gap-2 px-5 py-2.5 bg-[#9945ff] text-white font-mono text-[10px] uppercase tracking-widest hover:bg-[#8835ef] transition-colors"
-                        >
-                          <Send className="w-3.5 h-3.5" />
-                          Reply
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="text-center py-4 border border-dashed border-[#1a1a1a]">
-                        <p className="text-[10px] font-mono text-[#444]">Sign in to reply</p>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* Right: Sidebar */}
-        <div className="w-64 shrink-0 space-y-6">
-
-          {/* Community stats */}
-          <div className="border border-[#1a1a1a] p-5 bg-[#0a0a0a]">
-            <div className="text-[9px] font-mono text-[#333] uppercase tracking-widest mb-4">Community Stats</div>
+            {/* Posts */}
             <div className="space-y-3">
-              {[
-                { label: "Members", value: "1,240", color: "text-[#9945ff]" },
-                { label: "Posts", value: mockPosts.length.toString(), color: "text-[#14f195]" },
-                { label: "Replies", value: mockPosts.reduce((a, b) => a + b.replies, 0).toString(), color: "text-[#f5a623]" },
-                { label: "Online Now", value: "47", color: "text-[#ff3366]" },
-              ].map(stat => (
-                <div key={stat.label} className="flex items-center justify-between">
-                  <span className="text-[10px] font-mono text-[#444] uppercase">{stat.label}</span>
-                  <span className={cn("text-[11px] font-mono font-bold", stat.color)}>{stat.value}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Top contributors */}
-          <div className="border border-[#1a1a1a] p-5 bg-[#0a0a0a]">
-            <div className="text-[9px] font-mono text-[#333] uppercase tracking-widest mb-4">Top Contributors</div>
-            <div className="space-y-2">
-              {[
-                { name: "So1111...112", posts: 34, color: "text-[#f5a623]" },
-                { name: "EPjFWd...1v", posts: 23, color: "text-[#9945ff]" },
-                { name: "5Q544f...j1", posts: 15, color: "text-[#14f195]" },
-                { name: "7xKXtg...AsU", posts: 8, color: "text-[#f5f5f0]" },
-              ].map((c, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <span className="text-[9px] font-mono text-[#333] w-4">{i + 1}</span>
-                  <div className="w-5 h-5 bg-[#1a1a1a] flex items-center justify-center text-[8px] font-mono">
-                    {c.name.slice(0, 2)}
-                  </div>
-                  <span className={cn("text-[10px] font-mono flex-1 truncate", c.color)}>{c.name}</span>
-                  <span className="text-[9px] font-mono text-[#444]">{c.posts}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Popular tags */}
-          <div className="border border-[#1a1a1a] p-5 bg-[#0a0a0a]">
-            <div className="text-[9px] font-mono text-[#333] uppercase tracking-widest mb-4">Popular Tags</div>
-            <div className="flex flex-wrap gap-2">
-              {["anchor", "security", "pdas", "defi", "nft", "token-2022", "beginner", "showcase"].map(tag => (
-                <button
-                  key={tag}
-                  className="text-[9px] font-mono text-[#444] border border-[#1a1a1a] px-2 py-1 hover:border-[#9945ff] hover:text-[#9945ff] transition-colors uppercase"
+              {filtered.map((post, i) => (
+                <motion.div
+                  key={post.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  onClick={() => setSelectedPost(selectedPost?.id === post.id ? null : post)}
+                  className={cn(
+                    "border p-4 md:p-5 cursor-pointer transition-all hover:border-[#9945ff]/40",
+                    selectedPost?.id === post.id ? "border-[#9945ff]/60 bg-[#0d0d0d]" : "border-[#1a1a1a] bg-[#0a0a0a] hover:bg-[#0d0d0d]"
+                  )}
                 >
-                  #{tag}
-                </button>
+                  <div className="flex items-start gap-3 md:gap-4">
+                    {/* Upvote */}
+                    <div className="flex flex-col items-center gap-1 shrink-0">
+                      <button
+                        onClick={e => { e.stopPropagation(); setUpvoted(prev => prev.includes(post.id) ? prev.filter(id => id !== post.id) : [...prev, post.id]); }}
+                        className={cn("w-7 h-7 flex items-center justify-center border transition-colors text-xs",
+                          upvoted.includes(post.id) ? "border-[#9945ff] text-[#9945ff] bg-[#9945ff]/10" : "border-[#1a1a1a] text-[#444] hover:border-[#9945ff] hover:text-[#9945ff]"
+                        )}>
+                        ▲
+                      </button>
+                      <span className="text-[10px] font-mono text-[#f5f5f0] font-bold">
+                        {post.upvotes + (upvoted.includes(post.id) ? 1 : 0)}
+                      </span>
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5 mb-2 flex-wrap">
+                        {post.pinned && (
+                          <span className="flex items-center gap-1 text-[8px] font-mono text-[#f5a623] border border-[#f5a623]/30 px-1.5 py-0.5 uppercase">
+                            <Pin className="w-2 h-2" /> Pinned
+                          </span>
+                        )}
+                        {post.hot && (
+                          <span className="flex items-center gap-1 text-[8px] font-mono text-[#ff3366] border border-[#ff3366]/30 px-1.5 py-0.5 uppercase">
+                            <Flame className="w-2 h-2" /> Hot
+                          </span>
+                        )}
+                        <span className="text-[8px] font-mono text-[#9945ff] border border-[#9945ff]/30 px-1.5 py-0.5 uppercase">
+                          {post.category}
+                        </span>
+                      </div>
+                      <h3 className="text-xs md:text-sm font-mono text-[#f5f5f0] font-bold uppercase mb-2 hover:text-[#9945ff] transition-colors leading-snug">
+                        {post.title}
+                      </h3>
+                      <p className="text-[11px] font-mono text-[#555] line-clamp-2 mb-3 leading-relaxed hidden sm:block">
+                        {post.body}
+                      </p>
+                      <div className="flex items-center gap-3 flex-wrap text-[9px] font-mono text-[#333]">
+                        <span className="text-[#444]">{post.author}</span>
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-2.5 h-2.5" /> {post.timestamp}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <MessageSquare className="w-2.5 h-2.5" /> {post.replies}
+                        </span>
+                        <div className="hidden sm:flex items-center gap-1 flex-wrap">
+                          {post.tags.map(tag => (
+                            <span key={tag} className="text-[#333] border border-[#1a1a1a] px-1.5 py-0.5">#{tag}</span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Expanded */}
+                  {selectedPost?.id === post.id && (
+                    <div className="mt-4 pt-4 border-t border-[#1a1a1a]" onClick={e => e.stopPropagation()}>
+                      <p className="text-xs font-mono text-[#555] mb-5 leading-relaxed">{post.body}</p>
+                      {post.replies_data.length > 0 && (
+                        <div className="space-y-3 mb-5">
+                          <div className="text-[9px] font-mono text-[#333] uppercase tracking-widest">{post.replies_data.length} Replies</div>
+                          {post.replies_data.map((reply, ri) => (
+                            <div key={ri} className="border border-[#1a1a1a] p-3 md:p-4 bg-[#020202]">
+                              <div className="flex items-center gap-3 mb-2 flex-wrap">
+                                <span className="text-[10px] font-mono text-[#9945ff]">{reply.author}</span>
+                                <span className="text-[9px] font-mono text-[#333]">{reply.timestamp}</span>
+                                <span className="ml-auto text-[9px] font-mono text-[#444]">▲ {reply.upvotes}</span>
+                              </div>
+                              <p className="text-xs font-mono text-[#555] leading-relaxed">{reply.body}</p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {isLoggedIn ? (
+                        <div className="flex gap-2 md:gap-3">
+                          <input value={replyText} onChange={e => setReplyText(e.target.value)}
+                            placeholder="Write a reply..."
+                            className="flex-1 bg-[#020202] border border-[#1a1a1a] px-3 md:px-4 py-2.5 text-xs font-mono text-[#f5f5f0] placeholder-[#333] focus:outline-none focus:border-[#9945ff] transition-colors"
+                          />
+                          <button onClick={() => setReplyText("")}
+                            className="flex items-center gap-2 px-4 md:px-5 py-2.5 bg-[#9945ff] text-white font-mono text-[10px] uppercase tracking-widest hover:bg-[#8835ef] transition-colors">
+                            <Send className="w-3 h-3" />
+                            <span className="hidden sm:block">Reply</span>
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="text-center py-4 border border-dashed border-[#1a1a1a]">
+                          <p className="text-[10px] font-mono text-[#444]">Sign in to reply</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </motion.div>
               ))}
             </div>
           </div>
 
-          {/* Join CTA */}
-          {!isLoggedIn && (
-            <div className="border border-[#9945ff]/30 p-5 bg-[#9945ff]/5">
-              <div className="text-[10px] font-mono text-[#9945ff] uppercase tracking-widest mb-2 font-bold">
-                Join the Community
+          {/* Right: Sidebar - hidden on mobile unless toggled */}
+          <div className={cn("w-64 shrink-0 space-y-4", showSidebar ? "block" : "hidden md:block")}>
+            <div className="border border-[#1a1a1a] p-4 md:p-5 bg-[#0a0a0a]">
+              <div className="text-[9px] font-mono text-[#333] uppercase tracking-widest mb-4">Community Stats</div>
+              <div className="space-y-3">
+                {[
+                  { label: "Members", value: "1,240", color: "text-[#9945ff]" },
+                  { label: "Posts", value: mockPosts.length.toString(), color: "text-[#14f195]" },
+                  { label: "Replies", value: mockPosts.reduce((a, b) => a + b.replies, 0).toString(), color: "text-[#f5a623]" },
+                  { label: "Online Now", value: "47", color: "text-[#ff3366]" },
+                ].map(stat => (
+                  <div key={stat.label} className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono text-[#444] uppercase">{stat.label}</span>
+                    <span className={cn("text-[11px] font-mono font-bold", stat.color)}>{stat.value}</span>
+                  </div>
+                ))}
               </div>
-              <p className="text-[10px] font-mono text-[#555] mb-4 leading-relaxed">
-                Sign in to post, reply, and connect with other builders.
-              </p>
             </div>
-          )}
+
+            <div className="border border-[#1a1a1a] p-4 md:p-5 bg-[#0a0a0a]">
+              <div className="text-[9px] font-mono text-[#333] uppercase tracking-widest mb-4">Top Contributors</div>
+              <div className="space-y-2">
+                {[
+                  { name: "So1111...112", posts: 34, color: "text-[#f5a623]" },
+                  { name: "EPjFWd...1v", posts: 23, color: "text-[#9945ff]" },
+                  { name: "5Q544f...j1", posts: 15, color: "text-[#14f195]" },
+                  { name: "7xKXtg...AsU", posts: 8, color: "text-[#f5f5f0]" },
+                ].map((c, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <span className="text-[9px] font-mono text-[#333] w-4">{i + 1}</span>
+                    <div className="w-5 h-5 bg-[#1a1a1a] flex items-center justify-center text-[8px] font-mono shrink-0">
+                      {c.name.slice(0, 2)}
+                    </div>
+                    <span className={cn("text-[10px] font-mono flex-1 truncate", c.color)}>{c.name}</span>
+                    <span className="text-[9px] font-mono text-[#444]">{c.posts}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="border border-[#1a1a1a] p-4 md:p-5 bg-[#0a0a0a]">
+              <div className="text-[9px] font-mono text-[#333] uppercase tracking-widest mb-4">Popular Tags</div>
+              <div className="flex flex-wrap gap-1.5">
+                {["anchor", "security", "pdas", "defi", "nft", "token-2022", "beginner", "showcase"].map(tag => (
+                  <button key={tag}
+                    className="text-[9px] font-mono text-[#444] border border-[#1a1a1a] px-2 py-1 hover:border-[#9945ff] hover:text-[#9945ff] transition-colors uppercase">
+                    #{tag}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {!isLoggedIn && (
+              <div className="border border-[#9945ff]/30 p-4 md:p-5 bg-[#9945ff]/5">
+                <div className="text-[10px] font-mono text-[#9945ff] uppercase tracking-widest mb-2 font-bold">Join the Community</div>
+                <p className="text-[10px] font-mono text-[#555] leading-relaxed">Sign in to post, reply, and connect with other builders.</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

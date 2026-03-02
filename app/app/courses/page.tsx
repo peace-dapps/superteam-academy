@@ -19,7 +19,7 @@ const tracks = [
 ];
 
 const difficulties = [
-  { id: 0, label: "ALL_LEVELS" },
+  { id: 0, label: "ALL" },
   { id: 1, label: "BEGINNER" },
   { id: 2, label: "INTERMEDIATE" },
   { id: 3, label: "ADVANCED" },
@@ -42,39 +42,42 @@ export default function CoursesPage() {
 
   return (
     <div className="min-h-screen bg-[#020202]">
-      <div className="border-b border-[#1a1a1a] px-6 py-12 max-w-7xl mx-auto">
+      {/* Header */}
+      <div className="border-b border-[#1a1a1a] px-4 md:px-6 py-8 md:py-12 max-w-7xl mx-auto">
         <div className="flex items-center gap-4 mb-4">
           <span className="text-[10px] font-mono text-[#333] uppercase tracking-widest">// COURSE CATALOG</span>
           <div className="flex-1 h-px bg-[#1a1a1a]" />
           <span className="text-[10px] font-mono text-[#9945ff]">{filtered.length}_RESULTS</span>
         </div>
-        <h1 className="font-display font-black text-6xl uppercase tracking-tighter">
+        <h1 className="font-display font-black text-4xl md:text-6xl uppercase tracking-tighter">
           ALL <span className="text-[#9945ff]">COURSES</span>
         </h1>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8">
+        {/* Search */}
         <div className="relative mb-6">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#333]" />
           <input
             type="text"
-            placeholder="SEARCH_COURSES..."
+            placeholder="Search courses..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-10 pr-4 py-3 bg-[#0a0a0a] border border-[#1a1a1a] text-xs font-mono text-[#f5f5f0] placeholder-[#333] focus:outline-none focus:border-[#9945ff] transition-colors uppercase tracking-widest"
           />
         </div>
 
-        <div className="flex flex-wrap gap-px bg-[#1a1a1a] mb-4 w-fit">
+        {/* Track filters */}
+        <div className="flex flex-wrap gap-2 mb-3">
           {tracks.map((track) => (
             <button
               key={track.id}
               onClick={() => setSelectedTrack(track.id)}
               className={cn(
-                "px-4 py-2 text-[10px] font-mono uppercase tracking-widest transition-colors",
+                "px-3 md:px-4 py-2 text-[10px] font-mono uppercase tracking-widest transition-colors border",
                 selectedTrack === track.id
-                  ? "bg-[#9945ff] text-white"
-                  : "bg-[#020202] text-[#444] hover:text-[#f5f5f0] hover:bg-[#0a0a0a]"
+                  ? "bg-[#9945ff] text-white border-[#9945ff]"
+                  : "bg-[#020202] text-[#444] border-[#1a1a1a] hover:text-[#f5f5f0] hover:bg-[#0a0a0a]"
               )}
             >
               {track.label}
@@ -82,16 +85,17 @@ export default function CoursesPage() {
           ))}
         </div>
 
-        <div className="flex flex-wrap gap-px bg-[#1a1a1a] mb-12 w-fit">
+        {/* Difficulty filters */}
+        <div className="flex flex-wrap gap-2 mb-8 md:mb-12">
           {difficulties.map((diff) => (
             <button
               key={diff.id}
               onClick={() => setSelectedDifficulty(diff.id)}
               className={cn(
-                "px-4 py-2 text-[10px] font-mono uppercase tracking-widest transition-colors",
+                "px-3 md:px-4 py-2 text-[10px] font-mono uppercase tracking-widest transition-colors border",
                 selectedDifficulty === diff.id
-                  ? "bg-[#14f195] text-black"
-                  : "bg-[#020202] text-[#444] hover:text-[#f5f5f0] hover:bg-[#0a0a0a]"
+                  ? "bg-[#14f195] text-black border-[#14f195]"
+                  : "bg-[#020202] text-[#444] border-[#1a1a1a] hover:text-[#f5f5f0] hover:bg-[#0a0a0a]"
               )}
             >
               {diff.label}
@@ -99,7 +103,8 @@ export default function CoursesPage() {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#1a1a1a]">
+        {/* Course grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[#1a1a1a]">
           {filtered.map((course, i) => (
             <motion.div
               key={course.id}
@@ -109,7 +114,7 @@ export default function CoursesPage() {
             >
               <Link href={`/courses/${course.id}`}>
                 <div className="bg-[#020202] hover:bg-[#0a0a0a] transition-colors group h-full flex flex-col">
-                  <div className="h-40 bg-[#0d0d0d] scanline relative flex items-end p-5 border-b border-[#1a1a1a]">
+                  <div className="h-36 md:h-40 bg-[#0d0d0d] scanline relative flex items-end p-4 md:p-5 border-b border-[#1a1a1a]">
                     <div className="relative z-10">
                       <div className="text-[10px] font-mono text-[#333] uppercase tracking-widest mb-1">
                         TRACK_{course.trackId.toString().padStart(2, "0")}
@@ -122,18 +127,18 @@ export default function CoursesPage() {
                         {DIFFICULTY_LABELS[course.difficulty]}
                       </div>
                     </div>
-                    <div className="absolute top-4 right-4 text-[10px] font-mono text-[#14f195]">
+                    <div className="absolute top-3 right-3 text-[10px] font-mono text-[#14f195]">
                       +{course.xp.toLocaleString()}_XP
                     </div>
                     {isEnrolled(course.id) && (
-                      <div className="absolute top-4 left-4 text-[10px] font-mono text-[#9945ff] border border-[#9945ff] px-2 py-0.5">
+                      <div className="absolute top-3 left-3 text-[10px] font-mono text-[#9945ff] border border-[#9945ff] px-2 py-0.5">
                         ENROLLED
                       </div>
                     )}
                   </div>
-                  <div className="p-6 flex flex-col flex-1">
+                  <div className="p-4 md:p-6 flex flex-col flex-1">
                     <div className="text-[10px] font-mono text-[#333] uppercase tracking-widest mb-2">{course.track}</div>
-                    <h3 className="font-display font-black text-lg uppercase tracking-tight mb-3 group-hover:text-[#9945ff] transition-colors leading-tight">
+                    <h3 className="font-display font-black text-base md:text-lg uppercase tracking-tight mb-3 group-hover:text-[#9945ff] transition-colors leading-tight">
                       {course.title}
                     </h3>
                     <p className="text-xs font-mono text-[#444] line-clamp-2 mb-4 flex-1 leading-relaxed">{course.description}</p>
@@ -149,7 +154,7 @@ export default function CoursesPage() {
         </div>
 
         {filtered.length === 0 && (
-          <div className="text-center py-24">
+          <div className="text-center py-16 md:py-24">
             <div className="text-[10px] font-mono text-[#333] uppercase tracking-widest mb-4">// NO_RESULTS_FOUND</div>
             <p className="text-xs font-mono text-[#444]">Try adjusting your search or filters</p>
           </div>
