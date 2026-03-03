@@ -19,15 +19,6 @@ const WalletMultiButton = dynamic(
   { ssr: false }
 );
 
-const navLinks = [
-  { href: "/courses", label: "COURSES" },
-  { href: "/practice", label: "PRACTICE" },
-  { href: "/daily", label: "CHALLENGE" },
-  { href: "/community", label: "COMMUNITY" },
-  { href: "/leaderboard", label: "LEADERBOARD" },
-  { href: "/dashboard", label: "DASHBOARD" },
-];
-
 const languages = [
   { code: "en", flag: "🇺🇸", label: "English" },
   { code: "pt", flag: "🇧🇷", label: "Português" },
@@ -48,16 +39,11 @@ function SignInModal({ onClose, signInWithGoogle, signInWithGitHub }: {
             <h2 className="font-display font-black text-xl uppercase tracking-tight">SIGN IN</h2>
             <p className="text-[10px] font-mono text-[#444] mt-1">Choose how you want to sign in</p>
           </div>
-          <button
-            onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center border border-[#1a1a1a] text-[#444] hover:text-[#f5f5f0] hover:border-[#333] transition-colors"
-          >
+          <button onClick={onClose} className="w-8 h-8 flex items-center justify-center border border-[#1a1a1a] text-[#444] hover:text-[#f5f5f0] hover:border-[#333] transition-colors">
             <X className="w-3.5 h-3.5" />
           </button>
         </div>
-
         <div className="p-4 space-y-2">
-          {/* Google */}
           <button
             onClick={() => { signInWithGoogle(); onClose(); }}
             className="w-full flex items-center gap-4 px-5 py-4 border border-[#1a1a1a] hover:border-[#9945ff] hover:bg-[#1a1a1a] transition-all group"
@@ -72,8 +58,6 @@ function SignInModal({ onClose, signInWithGoogle, signInWithGitHub }: {
               Sign in with Google
             </span>
           </button>
-
-          {/* GitHub */}
           <button
             onClick={() => { signInWithGitHub(); onClose(); }}
             className="w-full flex items-center gap-4 px-5 py-4 border border-[#1a1a1a] hover:border-[#9945ff] hover:bg-[#1a1a1a] transition-all group"
@@ -85,30 +69,13 @@ function SignInModal({ onClose, signInWithGoogle, signInWithGitHub }: {
               Sign in with GitHub
             </span>
           </button>
-
-          {/* Wallet */}
           <div className="w-full flex items-center gap-4 px-5 py-4 border border-[#1a1a1a] hover:border-[#9945ff] hover:bg-[#1a1a1a] transition-all group cursor-pointer">
             <svg className="w-5 h-5 flex-shrink-0 text-[#9945ff]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
             </svg>
-            <WalletMultiButton
-              style={{
-                background: "transparent",
-                borderRadius: "0px",
-                fontSize: "12px",
-                fontFamily: "Space Mono, monospace",
-                fontWeight: "700",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                height: "auto",
-                padding: "0",
-                color: "#f5f5f0",
-                boxShadow: "none",
-              }}
-            />
+            <WalletMultiButton style={{ background: "transparent", borderRadius: "0px", fontSize: "12px", fontFamily: "Space Mono, monospace", fontWeight: "700", letterSpacing: "0.1em", textTransform: "uppercase", height: "auto", padding: "0", color: "#f5f5f0", boxShadow: "none" }} />
           </div>
         </div>
-
         <div className="px-6 py-4 border-t border-[#1a1a1a]">
           <p className="text-[9px] font-mono text-[#333] text-center uppercase tracking-widest">
             By signing in you agree to our terms of service
@@ -140,14 +107,19 @@ export function Navbar() {
     ? `/profile/${publicKey.toBase58()}`
     : "/";
 
+  const navLinks = [
+    { href: "/courses", label: navT.courses },
+    { href: "/practice", label: navT.practice },
+    { href: "/daily", label: "CHALLENGE" },
+    { href: "/community", label: "COMMUNITY" },
+    { href: "/leaderboard", label: navT.leaderboard },
+    { href: "/dashboard", label: navT.dashboard },
+  ];
+
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (langRef.current && !langRef.current.contains(e.target as Node)) {
-        setLangOpen(false);
-      }
-      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
-        setUserMenuOpen(false);
-      }
+      if (langRef.current && !langRef.current.contains(e.target as Node)) setLangOpen(false);
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) setUserMenuOpen(false);
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -179,14 +151,7 @@ export function Navbar() {
 
             {/* Desktop nav links */}
             <div className="hidden md:flex items-center gap-0">
-              {[
-                { href: "/courses", label: navT.courses },
-{ href: "/practice", label: "PRACTICE" },
-{ href: "/daily", label: "CHALLENGE" },
-{ href: "/community", label: "COMMUNITY" },
-{ href: "/leaderboard", label: navT.leaderboard },
-{ href: "/dashboard", label: navT.dashboard },
-              ].map((link) => (
+              {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -213,13 +178,16 @@ export function Navbar() {
                   <span className="text-[#14f195]">LVL_{level}</span>
                 </div>
               )}
-<button
-  onClick={toggleTheme}
-  className="flex items-center justify-center w-9 h-9 border border-[#1a1a1a] text-[#444] hover:border-[#9945ff] hover:text-[#9945ff] transition-colors"
-  title="Toggle theme"
->
-  {theme === "dark" ? "☀️" : "🌙"}
-</button>
+
+              {/* Theme toggle */}
+              <button
+                onClick={toggleTheme}
+                className="flex items-center justify-center w-9 h-9 border border-[#1a1a1a] text-[#444] hover:border-[#9945ff] hover:text-[#9945ff] transition-colors"
+                title="Toggle theme"
+              >
+                {theme === "dark" ? "☀️" : "🌙"}
+              </button>
+
               {/* Language switcher */}
               <div className="relative" ref={langRef}>
                 <button
@@ -237,9 +205,7 @@ export function Navbar() {
                         onClick={() => { setLang(l.code as "en" | "pt" | "es"); setLangOpen(false); }}
                         className={cn(
                           "w-full flex items-center gap-3 px-4 py-3 text-[10px] font-mono uppercase tracking-widest transition-colors border-b border-[#1a1a1a] last:border-b-0",
-                          lang === l.code
-                            ? "text-[#9945ff] bg-[#1a1a1a]"
-                            : "text-[#444] hover:text-[#f5f5f0] hover:bg-[#1a1a1a]"
+                          lang === l.code ? "text-[#9945ff] bg-[#1a1a1a]" : "text-[#444] hover:text-[#f5f5f0] hover:bg-[#1a1a1a]"
                         )}
                       >
                         <span>{l.flag}</span>
@@ -259,89 +225,62 @@ export function Navbar() {
                   >
                     <User className="w-3 h-3" />
                     <span>
-                      {user
-                        ? user.email?.split('@')[0].toUpperCase().slice(0, 10)
-                        : shortenAddress(publicKey!.toBase58())}
+                      {user ? user.email?.split('@')[0].toUpperCase().slice(0, 10) : shortenAddress(publicKey!.toBase58())}
                     </span>
                     <ChevronDown className="w-3 h-3" />
                   </button>
-
                   {userMenuOpen && (
-  <div className="absolute right-0 top-full mt-1 w-48 bg-[#0a0a0a] border border-[#1a1a1a] z-50">
-    <Link
-      href={profileHref}
-      onClick={() => setUserMenuOpen(false)}
-      className="flex items-center gap-3 px-4 py-3 text-[10px] font-mono text-[#444] hover:text-[#f5f5f0] hover:bg-[#1a1a1a] transition-colors border-b border-[#1a1a1a] uppercase tracking-widest"
-    >
-      <User className="w-3 h-3" />
-      View Profile
-    </Link>
-    <Link
-  href="/settings"
-  onClick={() => setUserMenuOpen(false)}
-  className="flex items-center gap-3 px-4 py-3 text-[10px] font-mono text-[#444] hover:text-[#f5f5f0] hover:bg-[#1a1a1a] transition-colors border-b border-[#1a1a1a] uppercase tracking-widest"
->
-  <Settings className="w-3 h-3" />
-  Settings
-</Link>
-<Link
-  href="/admin"
-  onClick={() => setUserMenuOpen(false)}
-  className="flex items-center gap-3 px-4 py-3 text-[10px] font-mono text-[#9945ff] hover:bg-[#9945ff]/10 transition-colors border-b border-[#1a1a1a] uppercase tracking-widest"
->
-  <Shield className="w-3 h-3" />
-  Admin Panel
-</Link>
-    {!publicKey && (
-      <div className="border-b border-[#1a1a1a]">
-        <div className="px-4 py-2 text-[9px] font-mono text-[#333] uppercase tracking-widest">
-          Connect Wallet
-        </div>
-        <div className="px-3 pb-2">
-          <WalletMultiButton
-            style={{
-              background: "#9945ff",
-              borderRadius: "0px",
-              fontSize: "9px",
-              fontFamily: "Space Mono, monospace",
-              fontWeight: "700",
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              height: "32px",
-              padding: "0 12px",
-              width: "100%",
-            }}
-          />
-        </div>
-      </div>
-    )}
-    {publicKey && (
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-[#1a1a1a]">
-        <div className="w-2 h-2 rounded-full bg-[#14f195]" />
-        <span className="text-[9px] font-mono text-[#14f195] uppercase tracking-widest">
-          {shortenAddress(publicKey.toBase58())}
-        </span>
-      </div>
-    )}
-    <button
-      onClick={() => { signOut(); setUserMenuOpen(false); }}
-      className="w-full flex items-center gap-3 px-4 py-3 text-[10px] font-mono text-[#ff3366] hover:bg-[#ff3366]/10 transition-colors uppercase tracking-widest"
-    >
-      <X className="w-3 h-3" />
-      Sign Out
-    </button>
-  </div>
-)}
+                    <div className="absolute right-0 top-full mt-1 w-48 bg-[#0a0a0a] border border-[#1a1a1a] z-50">
+                      <Link href={profileHref} onClick={() => setUserMenuOpen(false)}
+                        className="flex items-center gap-3 px-4 py-3 text-[10px] font-mono text-[#444] hover:text-[#f5f5f0] hover:bg-[#1a1a1a] transition-colors border-b border-[#1a1a1a] uppercase tracking-widest">
+                        <User className="w-3 h-3" />
+                        {navT.profile}
+                      </Link>
+                      <Link href="/settings" onClick={() => setUserMenuOpen(false)}
+                        className="flex items-center gap-3 px-4 py-3 text-[10px] font-mono text-[#444] hover:text-[#f5f5f0] hover:bg-[#1a1a1a] transition-colors border-b border-[#1a1a1a] uppercase tracking-widest">
+                        <Settings className="w-3 h-3" />
+                        {translations[lang].settings.title}
+                      </Link>
+                      <Link href="/admin" onClick={() => setUserMenuOpen(false)}
+                        className="flex items-center gap-3 px-4 py-3 text-[10px] font-mono text-[#9945ff] hover:bg-[#9945ff]/10 transition-colors border-b border-[#1a1a1a] uppercase tracking-widest">
+                        <Shield className="w-3 h-3" />
+                        Admin Panel
+                      </Link>
+                      {!publicKey && (
+                        <div className="border-b border-[#1a1a1a]">
+                          <div className="px-4 py-2 text-[9px] font-mono text-[#333] uppercase tracking-widest">
+                            {translations[lang].common.connect_wallet}
+                          </div>
+                          <div className="px-3 pb-2">
+                            <WalletMultiButton style={{ background: "#9945ff", borderRadius: "0px", fontSize: "9px", fontFamily: "Space Mono, monospace", fontWeight: "700", letterSpacing: "0.1em", textTransform: "uppercase", height: "32px", padding: "0 12px", width: "100%" }} />
+                          </div>
+                        </div>
+                      )}
+                      {publicKey && (
+                        <div className="flex items-center gap-2 px-4 py-3 border-b border-[#1a1a1a]">
+                          <div className="w-2 h-2 rounded-full bg-[#14f195]" />
+                          <span className="text-[9px] font-mono text-[#14f195] uppercase tracking-widest">
+                            {shortenAddress(publicKey.toBase58())}
+                          </span>
+                        </div>
+                      )}
+                      <button
+                        onClick={() => { signOut(); setUserMenuOpen(false); }}
+                        className="w-full flex items-center gap-3 px-4 py-3 text-[10px] font-mono text-[#ff3366] hover:bg-[#ff3366]/10 transition-colors uppercase tracking-widest"
+                      >
+                        <X className="w-3 h-3" />
+                        {navT.signOut}
+                      </button>
+                    </div>
+                  )}
                 </div>
               ) : (
-                <>
-                  <button
-  onClick={() => setSignInOpen(true)}
-  className="px-4 py-2 border border-[#1a1a1a] text-[#f5f5f0] font-mono text-[9px] uppercase tracking-widest hover:border-[#9945ff] hover:text-[#9945ff] transition-colors"
->
-  SIGN_IN
-</button>
-                </>
+                <button
+                  onClick={() => setSignInOpen(true)}
+                  className="px-4 py-2 border border-[#1a1a1a] text-[#f5f5f0] font-mono text-[9px] uppercase tracking-widest hover:border-[#9945ff] hover:text-[#9945ff] transition-colors"
+                >
+                  {navT.signIn}
+                </button>
               )}
             </div>
 
@@ -365,9 +304,7 @@ export function Navbar() {
                 onClick={() => setMobileOpen(false)}
                 className={cn(
                   "flex items-center px-6 py-4 text-[10px] font-mono uppercase tracking-widest border-b border-[#1a1a1a] transition-colors",
-                  pathname === link.href
-                    ? "text-[#9945ff] bg-[#0a0a0a]"
-                    : "text-[#444] hover:text-[#f5f5f0]"
+                  pathname === link.href ? "text-[#9945ff] bg-[#0a0a0a]" : "text-[#444] hover:text-[#f5f5f0]"
                 )}
               >
                 {link.label}
@@ -375,19 +312,13 @@ export function Navbar() {
             ))}
             {(user || publicKey) && (
               <>
-                <Link
-                  href={profileHref}
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-2 px-6 py-4 text-[10px] font-mono text-[#14f195] border-b border-[#1a1a1a] uppercase tracking-widest"
-                >
-                  <User className="w-3 h-3" /> Profile
+                <Link href={profileHref} onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2 px-6 py-4 text-[10px] font-mono text-[#14f195] border-b border-[#1a1a1a] uppercase tracking-widest">
+                  <User className="w-3 h-3" /> {navT.profile}
                 </Link>
-                <Link
-                  href="/settings"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-2 px-6 py-4 text-[10px] font-mono text-[#444] border-b border-[#1a1a1a] uppercase tracking-widest hover:text-[#f5f5f0]"
-                >
-                  <Settings className="w-3 h-3" /> Settings
+                <Link href="/settings" onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2 px-6 py-4 text-[10px] font-mono text-[#444] border-b border-[#1a1a1a] uppercase tracking-widest hover:text-[#f5f5f0]">
+                  <Settings className="w-3 h-3" /> {translations[lang].settings.title}
                 </Link>
               </>
             )}
@@ -410,7 +341,7 @@ export function Navbar() {
                 onClick={() => { setSignInOpen(true); setMobileOpen(false); }}
                 className="w-full flex items-center justify-center px-6 py-4 text-[10px] font-mono uppercase tracking-widest border-b border-[#1a1a1a] text-[#f5f5f0] hover:text-[#9945ff] transition-colors"
               >
-                SIGN_IN
+                {navT.signIn}
               </button>
             )}
             {(user || publicKey) && (
@@ -418,24 +349,12 @@ export function Navbar() {
                 onClick={signOut}
                 className="w-full flex items-center justify-center px-6 py-4 text-[10px] font-mono uppercase tracking-widest border-b border-[#1a1a1a] text-[#ff3366]"
               >
-                SIGN_OUT
+                {navT.signOut}
               </button>
             )}
             {!user && (
               <div className="p-4">
-                <WalletMultiButton
-                  style={{
-                    background: "#9945ff",
-                    borderRadius: "0px",
-                    fontSize: "10px",
-                    fontFamily: "Space Mono, monospace",
-                    fontWeight: "700",
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase",
-                    width: "100%",
-                    height: "40px",
-                  }}
-                />
+                <WalletMultiButton style={{ background: "#9945ff", borderRadius: "0px", fontSize: "10px", fontFamily: "Space Mono, monospace", fontWeight: "700", letterSpacing: "0.1em", textTransform: "uppercase", width: "100%", height: "40px" }} />
               </div>
             )}
           </div>
