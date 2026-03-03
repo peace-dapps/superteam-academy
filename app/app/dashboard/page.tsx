@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useXP } from "@/context/XPContext";
+import { useXPBalance } from "@/hooks/useXPBalance";
 import { useAuth } from "@/context/AuthContext";
 import { useCourses } from "@/hooks/useCourses";
 import { mockCourses, mockAchievements } from "@/lib/mockData";
@@ -135,7 +135,7 @@ function StreakCalendar({ streak }: { streak: number }) {
 
 export default function DashboardPage() {
   const { publicKey } = useWallet();
-  const { xp, level, progressPercent } = useXP();
+  const { xp, level, progressPercent, xpForNextLevel, isLoading: xpLoading } = useXPBalance();
   const { user } = useAuth();
   const { isEnrolled } = useCourses();
 
@@ -247,7 +247,7 @@ export default function DashboardPage() {
           </div>
           <div className="flex items-center justify-between mt-3">
             <span className="text-[10px] md:text-xs font-mono text-[#444]">{formatXP(xp)} XP earned</span>
-            <span className="text-[10px] md:text-xs font-mono text-[#444]">{formatXP((level + 1) * (level + 1) * 100)} XP needed</span>
+            <span className="text-[10px] md:text-xs font-mono text-[#444]">{formatXP(xpForNextLevel)} XP needed</span>
           </div>
         </div>
 
