@@ -5,6 +5,7 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import { XPProvider } from "@/context/XPContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { GamificationProvider } from "@/context/GamificationProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { GoogleAnalytics } from '@next/third-parties/google';
@@ -32,11 +33,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <WalletProviderWrapper>
                 <XPProvider>
                   <PostHogProvider>
-                    <div className="flex flex-col min-h-screen">
-                      <Navbar />
-                      <main className="flex-1 pt-14">{children}</main>
-                      <Footer />
-                    </div>
+                    <GamificationProvider>
+                      <div className="flex flex-col min-h-screen">
+                        <Navbar />
+                        <main className="flex-1 pt-14">{children}</main>
+                        <Footer />
+                      </div>
+                    </GamificationProvider>
                   </PostHogProvider>
                 </XPProvider>
               </WalletProviderWrapper>
