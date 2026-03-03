@@ -1,96 +1,99 @@
-# Superteam Academy
+# PumpSwap Market Maker Bot 🤖
 
-Decentralized learning platform on Solana. Learners enroll in courses, complete lessons to earn soulbound XP tokens, receive Metaplex Core credential NFTs, and collect achievements. Course creators earn XP rewards. Platform governed by multisig authority.
+A Node.js market maker bot for the PumpSwap AMM DEX on Solana. It monitors your token's pool price and automatically buys when price dips and sells when price rises within your configured spread.
 
-## Monorepo Structure
+## How it works
 
-```
-superteam-academy/
-├── onchain-academy/          ← Anchor program (deployed on devnet)
-│   ├── programs/             ← Rust program source (16 instructions)
-│   ├── tests/                ← 77 Rust + 62 TypeScript tests
-│   └── scripts/              ← Devnet interaction scripts
-├── app/                      ← Next.js frontend (bounty)
-├── sdk/                      ← TypeScript SDK (future)
-├── docs/                     ← Documentation
-│   ├── SPEC.md               ← Program specification
-│   ├── ARCHITECTURE.md       ← Account maps, data flows, CU budgets
-│   ├── INTEGRATION.md        ← Frontend integration guide
-│   └── DEPLOY-PROGRAM.md     ← Deploy your own devnet instance
-└── wallets/                  ← Keypairs (gitignored)
-```
+PumpSwap uses a **constant product AMM** (x × y = k), similar to Uniswap v2. The bot:
 
-## Quick Start
+1. Finds your token's PumpSwap pool automatically
+2. Monitors the price every few seconds
+3. **Buys** when price falls below your target by `BUY_SPREAD %`
+4. **Sells** when price rises above your target by `SELL_SPREAD %`
+5. Adjusts the target price slightly after each trade to follow the market
+
+## Setup
+
+### 1. Install dependencies
 
 ```bash
-git clone https://github.com/solanabr/superteam-academy.git
-cd superteam-academy/onchain-academy
-
-# Install dependencies
-yarn install
-
-# Build the program
-anchor build
-
-# Run tests (localnet)
-anchor test
-
-# Rust unit tests
-cargo test --manifest-path tests/rust/Cargo.toml
+npm install
 ```
 
-## Devnet Deployment
-
-The program is live on devnet:
-
-| | Address |
-|---|---|
-| **Program** | [`ACADBRCB3zGvo1KSCbkztS33ZNzeBv2d7bqGceti3ucf`](https://explorer.solana.com/address/ACADBRCB3zGvo1KSCbkztS33ZNzeBv2d7bqGceti3ucf?cluster=devnet) |
-| **XP Mint** | [`xpXPUjkfk7t4AJF1tYUoyAYxzuM5DhinZWS1WjfjAu3`](https://explorer.solana.com/address/xpXPUjkfk7t4AJF1tYUoyAYxzuM5DhinZWS1WjfjAu3?cluster=devnet) |
-| **Authority** | [`ACAd3USj2sMV6drKcMY2wZtNkhVDHWpC4tfJe93hgqYn`](https://explorer.solana.com/address/ACAd3USj2sMV6drKcMY2wZtNkhVDHWpC4tfJe93hgqYn?cluster=devnet) |
-
-Frontend bounty applicants: [deploy your own instance](docs/DEPLOY-PROGRAM.md) on devnet.
-
-## Tech Stack
-
-| Layer | Stack |
-|---|---|
-| **Programs** | Anchor 0.31+, Rust 1.82+ |
-| **XP Tokens** | Token-2022 (NonTransferable, PermanentDelegate) |
-| **Credentials** | Metaplex Core NFTs (soulbound via PermanentFreezeDelegate) |
-| **Testing** | ts-mocha/Chai, Cargo test |
-| **Client** | TypeScript, @coral-xyz/anchor, @solana/web3.js |
-| **Frontend** | Next.js 14+, React, Tailwind CSS |
-| **RPC** | Helius (DAS API for credential queries + XP leaderboard) |
-| **Content** | Arweave (immutable course content) |
-| **Multisig** | Squads (platform authority) |
-
-## Documentation
-
-- **[Program Specification](docs/SPEC.md)** — 16 instructions, 6 PDA types, 26 errors, 15 events
-- **[Architecture](docs/ARCHITECTURE.md)** — Account maps, data flows, CU budgets
-- **[Frontend Integration](docs/INTEGRATION.md)** — PDA derivation, instruction usage, events, error handling
-- **[Deployment Guide](docs/DEPLOY-PROGRAM.md)** — Deploy your own program instance on devnet
-- **[Frontend Bounty](docs/bounty.md)** — $4,800 USDC bounty for building the frontend
-
-## Contributing
+### 2. Configure your .env
 
 ```bash
-# Branch naming
-git checkout -b <type>/<scope>-<description>-<DD-MM-YYYY>
-# Examples:
-#   feat/enrollment-lessons-11-02-2026
-#   fix/cooldown-check-12-02-2026
-#   docs/integration-guide-17-02-2026
-
-# Before merging
-anchor build
-cargo fmt
-cargo clippy -- -W clippy::all
-cargo test --manifest-path onchain-academy/tests/rust/Cargo.toml
-anchor test
+cp .env.example .env
 ```
 
-## License
+Then edit `.env` and fill in:
 
-[MIT](LICENSE)
+| Variable | Description |
+|---|---|
+| `PRIVATE_KEY` | Your wallet's base58 private key |
+| `TOKEN_MINT` | The mint address of your token |
+| `RPC_URL` | Solana RPC endpoint (use Helius/QuickNode for reliability) |
+
+### 3. Run the bot
+
+```bash
+npm start
+```
+
+## Configuration
+
+| Variable | Default | Description |
+|---|---|---|
+| `BUY_SPREAD` | `0.02` | Buy when price drops 2% below target |
+| `SELL_SPREAD` | `0.02` | Sell when price rises 2% above target |
+| `TRADE_AMOUNT_SOL` | `0.01` | SOL amount per trade |
+| `MAX_TOKEN_BALANCE` | `1000000` | Max tokens to hold at once |
+| `SLIPPAGE` | `0.05` | Max slippage tolerance (5%) |
+| `POLL_INTERVAL_MS` | `5000` | Price check interval (5 seconds) |
+| `PRIORITY_FEE` | `100000` | Priority fee in microlamports |
+
+## Example output
+
+```
+🚀 PumpSwap Market Maker Bot Starting...
+
+✅ Config validated
+✅ Wallet loaded: 7xKq...
+✅ Connected to Solana (1.18.26)
+
+📊 Config:
+   Token:       EPjFWdd...
+   Trade size:  0.01 SOL
+   Buy spread:  2%
+   Sell spread: 2%
+
+🔍 Finding PumpSwap pool...
+✅ Pool found at index 0: 5nmZb...
+
+▶️  Starting market making loop...
+
+⏱  2025-02-18T10:00:00.000Z
+   Price:   0.0000001234 SOL/token
+   Target:  0.0000001234 | Buy ≤ 0.0000001209 | Sell ≥ 0.0000001259
+   Wallet:  0.5000 SOL | 0.00 tokens
+   Stats:   0 buys, 0 sells, 0 errors
+   ⏳ Price within spread — no action
+```
+
+## ⚠️ Important warnings
+
+- **Start with small amounts** — test with `TRADE_AMOUNT_SOL=0.001` first
+- **Use a dedicated wallet** — never use your main wallet
+- **Get a good RPC** — public RPC is unreliable; use [Helius](https://helius.dev) or [QuickNode](https://quicknode.com)
+- **Watch your inventory** — set `MAX_TOKEN_BALANCE` and `MAX_SOL_BALANCE` carefully
+- **Trading involves risk** — you can lose money market making, especially on volatile memecoins
+
+## RPC Providers (recommended)
+
+- [Helius](https://helius.dev) — free tier available, great for bots
+- [QuickNode](https://quicknode.com) — reliable, paid
+- [Triton](https://triton.one) — high performance
+
+## Stop the bot
+
+Press `Ctrl+C` — the bot will print a summary before exiting.
