@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useXPBalance } from "@/hooks/useXPBalance";
+import { useXP } from "@/context/XPContext";
 import { useAuth } from "@/context/AuthContext";
 import { shortenAddress, formatXP } from "@/lib/utils";
 import { cn } from "@/lib/utils";
@@ -89,7 +89,7 @@ function SignInModal({ onClose, signInWithGoogle, signInWithGitHub }: {
 export function Navbar() {
   const pathname = usePathname();
   const { publicKey } = useWallet();
-  const { xp, level } = useXPBalance();
+  const { xp, level } = useXP();
   const { user, signInWithGoogle, signInWithGitHub, signOut } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [signInOpen, setSignInOpen] = useState(false);
