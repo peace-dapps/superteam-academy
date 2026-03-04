@@ -251,36 +251,36 @@ export default function HomePage() {
 
             <a href="https://solana.com" target="_blank" rel="noopener noreferrer"
               aria-label="Solana website" className="opacity-60 hover:opacity-100 transition-opacity">
-              <img src="/solana-wordmark.svg" alt="" width={120} height={28} className="h-7" />
+              <img src="/solana-wordmark.svg" alt="" width={120} height={28} className="h-7 object-contain" />
             </a>
 
             <a href="https://superteam.fun/br" target="_blank" rel="noopener noreferrer"
               aria-label="Superteam Brazil website" className="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
-              <img src="/superteam-br.jpg" alt="" width={120} height={28} className="h-7" />
+              <img src="/superteam-br.jpg" alt="" width={120} height={28} className="h-7 object-contain" />
               <span className="text-[10px] font-mono text-[#555] uppercase tracking-widest hidden sm:block">Superteam Brazil</span>
             </a>
 
             <a href="https://metaplex.com" target="_blank" rel="noopener noreferrer"
               aria-label="Metaplex website" className="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
-              <img src="/metaplex.jpg" alt="" width={120} height={28} className="h-7" />
+              <img src="/metaplex.jpg" alt="" width={120} height={28} className="h-7 object-contain" />
               <span className="text-[10px] font-mono text-[#555] uppercase tracking-widest hidden sm:block">Metaplex</span>
             </a>
 
             <a href="https://helius.dev" target="_blank" rel="noopener noreferrer"
               aria-label="Helius website" className="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
-              <img src="/helius.jpg" alt="" width={120} height={28} className="h-7" />
+              <img src="/helius.jpg" alt="" width={120} height={28} className="h-7 object-contain" />
               <span className="text-[10px] font-mono text-[#555] uppercase tracking-widest hidden sm:block">Helius</span>
             </a>
 
             <a href="https://anchor-lang.com" target="_blank" rel="noopener noreferrer"
               aria-label="Anchor framework website" className="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
-              <img src="/anchor.png" alt="" width={120} height={28} className="h-7" />
+              <img src="/anchor.png" alt="" width={120} height={28} className="h-7 object-contain" />
               <span className="text-[10px] font-mono text-[#555] uppercase tracking-widest hidden sm:block">Anchor</span>
             </a>
 
             <a href="https://phantom.app" target="_blank" rel="noopener noreferrer"
               aria-label="Phantom wallet website" className="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
-              <img src="/phantom.jpg" alt="" width={120} height={28} className="h-7" />
+              <img src="/phantom.jpg" alt="" width={120} height={28} className="h-7 object-contain" />
               <span className="text-[10px] font-mono text-[#555] uppercase tracking-widest hidden sm:block">Phantom</span>
             </a>
 
