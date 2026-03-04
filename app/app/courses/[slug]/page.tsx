@@ -9,6 +9,7 @@ import { DIFFICULTY_LABELS } from "@/lib/constants";
 import { useCourses } from "@/hooks/useCourses";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 const mockLessons = [
   { id: 0, title: "Introduction & Setup", duration: "12 min", free: true },
@@ -45,7 +46,7 @@ export default function CourseDetailPage() {
     );
   }
 
-  const enrolled = isEnrolled(course.id);
+  const [enrolled, setEnrolled] = useState(isEnrolled(course.id));
 
   return (
     <div className="min-h-screen bg-[#020202]">
@@ -128,11 +129,13 @@ export default function CourseDetailPage() {
                   <button
   onClick={async () => {
     await enroll(course.id);
-    window.location.reload();
+    setEnrolled(true);
   }}
-  className="w-full py-3 bg-[#9945ff] text-white font-mono text-xs uppercase tracking-widest font-bold hover:bg-[#8835ef] transition-colors flex items-center justify-center gap-2"
+  disabled={enrolled}
+  className={`w-full py-3 font-mono text-xs uppercase tracking-widest font-bold transition-colors flex items-center justify-center gap-2 ${enrolled ? "bg-[#14f195] text-black" : "bg-[#9945ff] text-white hover:bg-[#8835ef]"}`}
 >
-  ENROLL_NOW <ArrowUpRight className="w-3.5 h-3.5" />
+  {enrolled ? "ENROLLED ✓" : "ENROLL_NOW"}
+  {!enrolled && <ArrowUpRight className="w-3.5 h-3.5" />}
 </button>
                 )}
               </div>

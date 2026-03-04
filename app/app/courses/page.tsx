@@ -33,7 +33,7 @@ export default function CoursesPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState(0);
   const { lang } = useLang();
   const t = translations[lang].courses;
-  const { isEnrolled } = useCourses();
+  const { isEnrolled, enroll, enrollingId } = useCourses();
   
 
   const filtered = mockCourses.filter((course) => {
