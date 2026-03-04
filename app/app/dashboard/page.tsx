@@ -11,6 +11,8 @@ import { shortenAddress, formatXP } from "@/lib/utils";
 import { ArrowUpRight, Zap, Trophy, BookOpen, Flame } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SkillRadar } from "@/components/ui-custom/SkillRadar";
+import { useLang } from "@/context/LanguageContext";
+import { translations } from "@/lib/i18n";
 
 function StreakCalendar({ streak }: { streak: number }) {
   const today = new Date();
@@ -136,6 +138,8 @@ function StreakCalendar({ streak }: { streak: number }) {
 export default function DashboardPage() {
   const { publicKey } = useWallet();
   const { xp, level, progressPercent, xpForNextLevel, isLoading: xpLoading } = useXPBalance();
+  const { lang } = useLang();
+  const t = translations[lang].dashboard;
   const { user } = useAuth();
   const { isEnrolled } = useCourses();
 

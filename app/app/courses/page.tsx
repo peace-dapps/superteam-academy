@@ -8,6 +8,8 @@ import { mockCourses } from "@/lib/mockData";
 import { DIFFICULTY_LABELS } from "@/lib/constants";
 import { useCourses } from "@/hooks/useCourses";
 import { cn } from "@/lib/utils";
+import { useLang } from "@/context/LanguageContext";
+import { translations } from "@/lib/i18n";
 
 const tracks = [
   { id: 0, label: "ALL" },
@@ -29,7 +31,10 @@ export default function CoursesPage() {
   const [search, setSearch] = useState("");
   const [selectedTrack, setSelectedTrack] = useState(0);
   const [selectedDifficulty, setSelectedDifficulty] = useState(0);
+  const { lang } = useLang();
+  const t = translations[lang].courses;
   const { isEnrolled } = useCourses();
+  
 
   const filtered = mockCourses.filter((course) => {
     const matchesSearch =
@@ -50,8 +55,8 @@ export default function CoursesPage() {
           <span className="text-[10px] font-mono text-[#9945ff]">{filtered.length}_RESULTS</span>
         </div>
         <h1 className="font-display font-black text-4xl md:text-6xl uppercase tracking-tighter">
-          ALL <span className="text-[#9945ff]">COURSES</span>
-        </h1>
+  <span className="text-[#9945ff]">{t.title}</span>
+</h1>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8">
@@ -60,7 +65,7 @@ export default function CoursesPage() {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#333]" />
           <input
             type="text"
-            placeholder="Search courses..."
+            placeholder={t.search}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-10 pr-4 py-3 bg-[#0a0a0a] border border-[#1a1a1a] text-xs font-mono text-[#f5f5f0] placeholder-[#333] focus:outline-none focus:border-[#9945ff] transition-colors uppercase tracking-widest"
@@ -132,7 +137,7 @@ export default function CoursesPage() {
                     </div>
                     {isEnrolled(course.id) && (
                       <div className="absolute top-3 left-3 text-[10px] font-mono text-[#9945ff] border border-[#9945ff] px-2 py-0.5">
-                        ENROLLED
+                        {t.continue}
                       </div>
                     )}
                   </div>

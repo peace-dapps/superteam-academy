@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useXP } from "@/context/XPContext";
+import { useXPBalance } from "@/hooks/useXPBalance";
 import { cn } from "@/lib/utils";
 import { Terminal, Zap, CheckCircle } from "lucide-react";
 import dynamic from "next/dynamic";
+import { useLang } from "@/context/LanguageContext";
+import { translations } from "@/lib/i18n";
 
 const Editor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
 
@@ -104,7 +106,7 @@ const difficultyColor: Record<string, string> = {
 
 export default function PracticePage() {
   const { publicKey } = useWallet();
-  const { addXP } = useXP();
+  const { xp } = useXPBalance();
   const [selected, setSelected] = useState(challenges[0]);
   const [code, setCode] = useState(challenges[0].starterCode);
   const [output, setOutput] = useState("");
@@ -113,6 +115,9 @@ export default function PracticePage() {
   const [running, setRunning] = useState(false);
   const [filter, setFilter] = useState("All");
   const [search, setSearch] = useState("");
+  const { lang } = useLang();
+  const t = translations[lang].practice;
+
   // Mobile: "list" | "editor"
   const [mobilePanel, setMobilePanel] = useState<"list" | "editor">("list");
 
@@ -148,7 +153,6 @@ export default function PracticePage() {
         setOutput(`✓ All tests passed!\n⚡ +${selected.xp} XP earned!`);
         if (!solved.includes(selected.id)) {
           setSolved(prev => [...prev, selected.id]);
-          addXP(selected.xp);
         }
       } else {
         setOutput(`✗ Tests failed\n  Hint: Try using "${selected.solution}"`);

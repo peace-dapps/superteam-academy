@@ -96,6 +96,7 @@ export function Navbar() {
   const [langOpen, setLangOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const { lang, setLang } = useLang();
+  const t = translations[lang].courses;
   const navT = translations[lang].nav;
   const langRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);

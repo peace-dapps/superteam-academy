@@ -8,6 +8,8 @@ import { useXPBalance } from "@/hooks/useXPBalance";
 import { shortenAddress, formatXP } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { RefreshCw } from "lucide-react";
+import { useLang } from "@/context/LanguageContext";
+import { translations } from "@/lib/i18n";
 
 const filters = ["ALL_TIME", "MONTHLY", "WEEKLY"];
 
@@ -16,6 +18,8 @@ export default function LeaderboardPage() {
   const { entries, loading, refetch } = useLeaderboard();
   const { xp, level } = useXPBalance();
   const [activeFilter, setActiveFilter] = useState("ALL_TIME");
+  const { lang } = useLang();
+  const t = translations[lang].leaderboard;
 
   return (
     <div className="min-h-screen bg-[#020202]">
